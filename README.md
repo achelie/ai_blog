@@ -49,7 +49,7 @@ src/
 Copy `.env.example` to `.env` and set the canonical production origin:
 
 ```env
-SITE_URL=https://evidique.com
+SITE_URL=https://www.evidique.com
 ```
 
 Astro uses this value for canonical links, sitemap URLs, RSS, robots.txt, and JSON-LD. Do not include a path or trailing route.
@@ -62,7 +62,7 @@ Create a Pages project connected to the repository with:
 - Build command: `pnpm build`
 - Build output directory: `dist`
 - Node.js: `22`
-- Environment variable: `SITE_URL=https://evidique.com`
+- Environment variable: `SITE_URL=https://www.evidique.com`
 
 No SSR adapter or Worker is used. `public/_headers` defines immutable caching for hashed Astro assets and revalidation for HTML. `public/_redirects` contains static redirects.
 

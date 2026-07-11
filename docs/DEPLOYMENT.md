@@ -11,7 +11,7 @@
 | Package manager   | pnpm 11 (pinned in `package.json`) |
 | SSR / adapter     | None                               |
 
-Set `SITE_URL` to `https://evidique.com`. The build is entirely static; do not create a Cloudflare Worker or database.
+Set `SITE_URL` to `https://www.evidique.com`. The build is entirely static; do not create a Cloudflare Worker or database.
 
 ## Before the first production deploy
 

@@ -4,7 +4,7 @@ Fill in the brackets or tick the boxes below. Leave anything unknown blank—I'l
 
 ## A. Site identity
 
-- Production domain: `https://evidique.com`
+- Production domain: `https://www.evidique.com`
 - Preferred site name (keep `evidique` or replace it?):evidique
 - Public contact email:x771364026@gmail.com
 - Legal business / publisher name:Ethan Miller(个人)

@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import icon from 'astro-icon';
 
-const site = process.env.SITE_URL ?? 'http://localhost:4321';
+const site = process.env.SITE_URL ?? 'https://www.evidique.com';
 
 export default defineConfig({
   site,
