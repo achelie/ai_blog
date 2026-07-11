@@ -1,0 +1,14 @@
+{
+  "name": "Cursor",
+  "slug": "cursor",
+  "website": "https://www.cursor.com/",
+  "logo": "C",
+  "company": "Anysphere",
+  "category": "ai-coding-tools",
+  "platforms": ["macOS", "Windows", "Linux"],
+  "hasFreePlan": false,
+  "startingPrice": null,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-01",
+  "affiliateKey": "cursor-site"
+}

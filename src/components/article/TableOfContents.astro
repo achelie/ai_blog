@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  headings: Array<{ depth: number; slug: string; text: string }>;
+}
+const headings = Astro.props.headings.filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
+---
+
+<nav class="toc" aria-label="Table of contents" data-pagefind-ignore>
+  <span class="section-kicker"><Icon name="lucide:list-tree" size={15} /> On this page</span>
+  <ol>
+    {
+      headings.map((heading) => (
+        <li class:list={{ nested: heading.depth === 3 }}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+<style>
+  .toc {
+    border-left: 3px solid var(--signal);
+    padding: 0.35rem 0 0.35rem 1rem;
+  }
+  .section-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  ol {
+    margin: 0.7rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  li + li {
+    margin-top: 0.4rem;
+  }
+  li.nested {
+    padding-left: 0.8rem;
+  }
+  a {
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import ArticleHero from '../components/article/ArticleHero.astro';
+import DemonstrationNotice from '../components/article/DemonstrationNotice.astro';
+import TableOfContents from '../components/article/TableOfContents.astro';
+import AuthorBox from '../components/article/AuthorBox.astro';
+
+interface Props {
+  entry: {
+    data: {
+      title: string;
+      description: string;
+      slug: string;
+      category: string;
+      author: string;
+      publishedAt: Date;
+      updatedAt: Date;
+      featuredImage: string;
+      demonstration: boolean;
+      seo: { title: string; description: string; canonical?: string; noindex: boolean };
+    };
+  };
+  type: string;
+  section: string;
+  headings: Array<{ depth: number; slug: string; text: string }>;
+  author: { data: { name: string; slug: string; bio: string; role: string; avatar: string } };
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  sectionUrl?: string;
+  currentUrl?: string;
+}
+const {
+  entry,
+  type,
+  section,
+  headings,
+  author,
+  jsonLd,
+  sectionUrl = `/${section.toLowerCase()}/`,
+  currentUrl = `/${section.toLowerCase()}/${entry.data.slug}/`,
+} = Astro.props;
+const { data } = entry;
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  canonical={data.seo.canonical}
+  image={data.featuredImage}
+  type="article"
+  noindex={data.seo.noindex}
+  publishedAt={data.publishedAt}
+  updatedAt={data.updatedAt}
+  jsonLd={jsonLd}
+>
+  <div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: section, url: sectionUrl },
+        { name: data.title, url: currentUrl },
+      ]}
+    /><ArticleHero
+      type={type}
+      category={data.category}
+      title={data.title}
+      description={data.description}
+      publishedAt={data.publishedAt}
+      updatedAt={data.updatedAt}
+    />{data.demonstration && <DemonstrationNotice />}
+  </div>
+  <div class="shell article-grid">
+    <aside><TableOfContents headings={headings} /></aside>
+    <article class="prose"><slot /></article>
+  </div>
+  <div class="shell author"><AuthorBox {...author.data} /></div>
+</BaseLayout>
+<style>
+  .article-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 44rem);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+    padding-block: 4rem;
+  }
+  .article-grid > aside {
+    position: sticky;
+    top: 7rem;
+  }
+  .author {
+    padding-block: 4rem 6rem;
+  }
+  @media (max-width: 800px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+    .article-grid > aside {
+      position: static;
+    }
+  }
+</style>

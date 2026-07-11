@@ -1,0 +1,13 @@
+{
+  "name": "Codex",
+  "slug": "codex",
+  "website": "https://openai.com/codex/",
+  "logo": "Cx",
+  "company": "OpenAI",
+  "category": "ai-coding-tools",
+  "platforms": ["Cloud", "Desktop", "CLI"],
+  "hasFreePlan": false,
+  "startingPrice": null,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-01"
+}

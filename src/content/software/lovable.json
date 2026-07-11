@@ -1,0 +1,13 @@
+{
+  "name": "Lovable",
+  "slug": "lovable",
+  "website": "https://lovable.dev/",
+  "logo": "L",
+  "company": "Vendor details to verify",
+  "category": "ai-website-builders",
+  "platforms": ["Web"],
+  "hasFreePlan": false,
+  "startingPrice": null,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-01"
+}

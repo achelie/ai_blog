@@ -1,0 +1,21 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  date: Date;
+}
+---
+
+<span class="meta-date"
+  ><Icon name="lucide:refresh-cw" size={15} /> Updated {
+    Astro.props.date.toLocaleDateString('en-US', { dateStyle: 'medium' })
+  }</span
+>
+<style>
+  .meta-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: var(--muted);
+  }
+</style>

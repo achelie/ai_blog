@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import CategoryCard from '../../components/common/CategoryCard.astro';
+import { categories } from '../../data/categories';
+---
+
+<BaseLayout
+  title="AI software categories"
+  description="Browse evidique reviews and guides by the job the software helps you do."
+  ><div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Categories', url: '/categories/' },
+      ]}
+    /><header>
+      <span class="section-kicker">Four practical desks</span><h1 class="display">
+        Software,<br />sorted by job.
+      </h1>
+    </header><section>{categories.map((category) => <CategoryCard {...category} />)}</section>
+  </div></BaseLayout
+>
+<style>
+  header {
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  header h1 {
+    margin: 0.5rem 0 0;
+  }
+  section {
+    max-width: 58rem;
+    margin-left: auto;
+    padding-block: 3rem 7rem;
+  }
+</style>

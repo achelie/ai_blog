@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import SearchBox from '../../components/common/SearchBox.astro';
+---
+
+<BaseLayout
+  title="Search"
+  description="Search evidique reviews, comparisons, alternatives, best lists, and practical guides."
+  noindex
+  ><div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Search', url: '/search/' },
+      ]}
+    /><header>
+      <span class="section-kicker">Static search, zero trackers</span><h1 class="display">
+        Find the useful bit.
+      </h1><p class="lede">
+        Search titles and article text. Pagefind builds the index after Astro finishes the site.
+      </p>
+    </header><section><SearchBox /></section>
+  </div></BaseLayout
+>
+<style>
+  header {
+    padding-block: 4rem 2rem;
+  }
+  header h1 {
+    margin: 0.5rem 0 1rem;
+  }
+  section {
+    max-width: 50rem;
+    padding-bottom: 8rem;
+  }
+</style>

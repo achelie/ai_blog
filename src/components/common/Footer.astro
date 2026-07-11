@@ -1,0 +1,74 @@
+---
+import { Icon } from 'astro-icon/components';
+import { footerNavigation, primaryNavigation } from '../../data/navigation';
+---
+
+<footer class="footer" data-pagefind-ignore>
+  <div class="shell footer-grid">
+    <div class="footer-statement">
+      <span class="section-kicker">evidique</span>
+      <p>Good software earns a recommendation. The rest earns notes in the margin.</p>
+    </div>
+    <nav aria-label="Content links">
+      {primaryNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <nav aria-label="Policy links">
+      {footerNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="footer-end">
+      <p>Independent by default.<br />Affiliate links are always labeled.</p>
+      <a href="/rss.xml"><Icon name="lucide:rss" size={17} /> RSS feed</a>
+      <p>© {new Date().getFullYear()} evidique</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: 3.5rem 2rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 1.2fr 1fr;
+    gap: 2rem;
+  }
+  .footer-statement p {
+    max-width: 30rem;
+    margin: 1rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 0.98;
+  }
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+  }
+  nav a,
+  .footer-end a {
+    color: var(--paper);
+    font-size: 0.83rem;
+    text-decoration-color: var(--signal);
+  }
+  .footer-end {
+    font-size: 0.78rem;
+    color: #bbb6aa;
+  }
+  .footer-end a {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  @media (max-width: 800px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer-statement {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

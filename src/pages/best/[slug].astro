@@ -1,0 +1,94 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import ProsCons from '../../components/review/ProsCons.astro';
+import { isPublished } from '../../utils/content';
+import { absoluteUrl } from '../../utils/seo';
+export async function getStaticPaths() {
+  const entries = await getCollection('best', isPublished);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+interface Props {
+  entry: CollectionEntry<'best'>;
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const [software, authors] = await Promise.all([
+  getCollection('software'),
+  getCollection('authors'),
+]);
+const author = authors.find((item) => item.data.slug === entry.data.author);
+if (!author) throw new Error('Missing author');
+const ranked = entry.data.products.map((item) => ({
+  item,
+  software: software.find((product) => product.data.slug === item.software),
+}));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.publishedAt.toISOString(),
+  dateModified: entry.data.updatedAt.toISOString(),
+  author: { '@type': 'Person', name: author.data.name },
+  mainEntityOfPage: absoluteUrl(`/best/${entry.data.slug}/`),
+  creativeWorkStatus: entry.data.demonstration ? 'Demonstration content' : 'Published',
+};
+---
+
+<ArticleLayout
+  entry={entry}
+  type="Best list"
+  section="Best"
+  headings={headings}
+  author={author}
+  jsonLd={jsonLd}
+>
+  <section class="method">
+    <span class="section-kicker">Ranking method</span><p>{entry.data.methodology}</p>
+  </section><Content />
+  <section class="rankings">
+    {
+      ranked.map(({ item, software }, index) => (
+        <article>
+          <>
+            <span class="rank">0{index + 1}</span>
+            <div>
+              <>
+                <span class="section-kicker">Best for {item.bestFor}</span>
+                <h2>{software?.data.name ?? item.software}</h2>
+                <p>{item.why}</p>
+                <ProsCons pros={item.pros} cons={item.cons} />
+              </>
+            </div>
+          </>
+        </article>
+      ))
+    }
+  </section>
+</ArticleLayout>
+<style>
+  .method {
+    border-left: 0.4rem solid var(--signal);
+    padding: 0.5rem 1.2rem;
+  }
+  .method p {
+    margin: 0.35rem 0;
+  }
+  .rankings > article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-top: 1px solid var(--ink);
+    padding-block: 2rem;
+  }
+  .rank {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 2rem;
+    color: var(--signal);
+  }
+  .rankings h2 {
+    margin: 0.25rem 0;
+    font-size: 3rem;
+  }
+</style>

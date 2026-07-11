@@ -1,0 +1,112 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+import ArticleCard from '../components/common/ArticleCard.astro';
+import EmptyState from '../components/common/EmptyState.astro';
+interface Item {
+  title: string;
+  description: string;
+  href: string;
+  type: string;
+  category: string;
+  date: Date;
+}
+interface Props {
+  title: string;
+  description: string;
+  kicker: string;
+  items: Item[];
+}
+const { title, description, kicker, items } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: title, url: Astro.url.pathname },
+      ]}
+    /><header class="collection-hero">
+      <span class="section-kicker">{kicker}</span><h1>{title}</h1><p>{description}</p><span
+        class="count">{String(items.length).padStart(2, '0')} notes</span
+      >
+    </header><section class="collection-grid">
+      {
+        items.length ? (
+          items.map((item, index) => (
+            <ArticleCard
+              {...item}
+              accent={index % 3 === 0 ? 'lime' : index % 3 === 1 ? 'signal' : 'sky'}
+            />
+          ))
+        ) : (
+          <EmptyState />
+        )
+      }
+    </section>
+  </div>
+</BaseLayout>
+<style>
+  .collection-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 2rem;
+    align-items: end;
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .collection-hero > .section-kicker {
+    grid-column: 1/-1;
+  }
+  .collection-hero h1 {
+    margin: 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.8;
+    letter-spacing: -0.065em;
+  }
+  .collection-hero p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .count {
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    background: var(--lime);
+    transform: rotate(3deg);
+  }
+  .collection-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 1rem;
+    padding-block: 2rem 7rem;
+  }
+  .collection-grid > :nth-child(3n) {
+    grid-column: 1/-1;
+  }
+  @media (max-width: 700px) {
+    .collection-hero,
+    .collection-grid {
+      grid-template-columns: 1fr;
+    }
+    .collection-hero p {
+      margin-top: 1rem;
+    }
+    .collection-grid > :nth-child(3n) {
+      grid-column: auto;
+    }
+    .count {
+      position: static;
+      width: fit-content;
+    }
+  }
+</style>

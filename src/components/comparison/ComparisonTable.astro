@@ -1,0 +1,72 @@
+---
+interface Props {
+  products: string[];
+  rows: Array<{ feature: string; values: string[] }>;
+}
+const { products, rows } = Astro.props;
+---
+
+<div class="table-scroll" tabindex="0" role="region" aria-label="Product comparison table">
+  <table>
+    <caption>Side-by-side product comparison</caption><thead
+      ><tr
+        ><th scope="col">What changes</th>{
+          products.map((product) => <th scope="col">{product}</th>)
+        }</tr
+      ></thead
+    ><tbody
+      >{
+        rows.map((row) => (
+          <tr>
+            <th scope="row">{row.feature}</th>
+            {row.values.map((value) => (
+              <td>{value}</td>
+            ))}
+          </tr>
+        ))
+      }</tbody
+    >
+  </table>
+</div>
+<style>
+  .table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+  }
+  table {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  th,
+  td {
+    border-bottom: 1px solid var(--line);
+    padding: 1rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  thead {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  tbody th {
+    width: 26%;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  td {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 1.05rem;
+  }
+</style>

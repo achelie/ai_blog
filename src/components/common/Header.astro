@@ -1,0 +1,120 @@
+---
+import { Icon } from 'astro-icon/components';
+import { primaryNavigation } from '../../data/navigation';
+import MobileNavigation from './MobileNavigation.astro';
+
+const path = Astro.url.pathname;
+---
+
+<header class="site-header" data-pagefind-ignore>
+  <div class="header-inner shell">
+    <a class="brand" href="/" aria-label="evidique home">
+      <span class="brand-mark">E</span>
+      <span>evidique<br /><small>AI software, inspected.</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {
+        primaryNavigation.map((item) => (
+          <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="search-link" href="/search/" aria-label="Search evidique">
+      <Icon name="lucide:search" size={19} />
+      <span>Search</span>
+    </a>
+    <MobileNavigation />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--ink);
+    background: rgba(244, 240, 230, 0.88);
+    backdrop-filter: blur(12px);
+  }
+  .header-inner {
+    display: grid;
+    grid-template-columns: minmax(13rem, 1.25fr) auto auto;
+    align-items: center;
+    min-height: 4.8rem;
+    gap: 1.4rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: fit-content;
+    font-size: 0.88rem;
+    font-weight: 850;
+    line-height: 1.05;
+    text-decoration: none;
+  }
+  .brand small {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    aspect-ratio: 1;
+    border: 1px solid var(--ink);
+    border-radius: 45% 55% 57% 43%;
+    background: var(--lime);
+    font-family: 'Newsreader Variable', serif;
+    font-size: 1.05rem;
+    transform: rotate(-4deg);
+  }
+  .desktop-nav {
+    display: flex;
+    gap: 1.2rem;
+  }
+  .desktop-nav a,
+  .search-link {
+    font-size: 0.78rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+  .desktop-nav a {
+    position: relative;
+    padding-block: 0.5rem;
+  }
+  .desktop-nav a::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0.3rem;
+    left: 0;
+    height: 2px;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  .desktop-nav a:hover::after,
+  .desktop-nav a[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .search-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  @media (max-width: 900px) {
+    .desktop-nav,
+    .search-link {
+      display: none;
+    }
+    .header-inner {
+      grid-template-columns: 1fr auto;
+    }
+  }
+</style>

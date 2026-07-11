@@ -1,0 +1,14 @@
+{
+  "name": "Windsurf",
+  "slug": "windsurf",
+  "website": "https://windsurf.com/",
+  "logo": "W",
+  "company": "Vendor details to verify",
+  "category": "ai-coding-tools",
+  "platforms": ["Desktop"],
+  "hasFreePlan": false,
+  "startingPrice": null,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-01",
+  "affiliateKey": "windsurf-site"
+}

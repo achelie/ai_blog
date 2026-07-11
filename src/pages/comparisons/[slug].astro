@@ -1,0 +1,91 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import ComparisonTable from '../../components/comparison/ComparisonTable.astro';
+import SoftwareCard from '../../components/common/SoftwareCard.astro';
+import { isPublished } from '../../utils/content';
+import { absoluteUrl } from '../../utils/seo';
+export async function getStaticPaths() {
+  const entries = await getCollection('comparisons', isPublished);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+interface Props {
+  entry: CollectionEntry<'comparisons'>;
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const [allSoftware, authors] = await Promise.all([
+  getCollection('software'),
+  getCollection('authors'),
+]);
+const products = entry.data.products
+  .map((slug) => allSoftware.find((item) => item.data.slug === slug))
+  .filter((item) => item !== undefined);
+const author = authors.find((item) => item.data.slug === entry.data.author);
+if (!author) throw new Error('Missing comparison author');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.publishedAt.toISOString(),
+  dateModified: entry.data.updatedAt.toISOString(),
+  author: { '@type': 'Person', name: author.data.name },
+  mainEntityOfPage: absoluteUrl(`/comparisons/${entry.data.slug}/`),
+  creativeWorkStatus: entry.data.demonstration ? 'Demonstration content' : 'Published',
+};
+---
+
+<ArticleLayout
+  entry={entry}
+  type="Comparison"
+  section="Comparisons"
+  headings={headings}
+  author={author}
+  jsonLd={jsonLd}
+>
+  <section class="quick">
+    <Icon name="lucide:scale" size={27} /><div>
+      <span class="section-kicker">Quick conclusion</span><h2>{entry.data.winner}</h2><p>
+        {entry.data.quickVerdict}
+      </p>
+    </div>
+  </section>
+  <section class="product-pair">
+    {products.map((product) => <SoftwareCard {...product.data} />)}
+  </section>
+  <h2>Core comparison</h2><ComparisonTable
+    products={products.map((product) => product.data.name)}
+    rows={entry.data.comparisonRows}
+  />
+  <Content />
+</ArticleLayout>
+<style>
+  .quick {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    background: rgba(201, 255, 69, 0.22);
+    padding: 1.3rem;
+  }
+  .quick h2 {
+    margin: 0.25rem 0;
+    font-size: 2rem;
+  }
+  .quick p {
+    margin: 0;
+  }
+  .product-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 650px) {
+    .product-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

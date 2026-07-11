@@ -1,0 +1,111 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div class="search-box">
+  <label for="site-search">Search reviews, comparisons, alternatives, and guides</label>
+  <div class="input-wrap">
+    <Icon name="lucide:search" size={22} /><input
+      id="site-search"
+      type="search"
+      placeholder="Try “coding tools”"
+      autocomplete="off"
+    />
+  </div>
+  <div id="search-results" aria-live="polite"></div>
+</div>
+<script>
+  const input = document.querySelector<HTMLInputElement>('#site-search');
+  const results = document.querySelector<HTMLElement>('#search-results');
+  interface Pagefind {
+    search: (query: string) => Promise<{
+      results: Array<{
+        data: () => Promise<{
+          url: string;
+          meta: { title?: string; type?: string; category?: string };
+          excerpt: string;
+        }>;
+      }>;
+    }>;
+  }
+  let pagefind: Pagefind | undefined;
+  const loadPagefind = (path: string) =>
+    new Function('modulePath', 'return import(modulePath)')(path) as Promise<Pagefind>;
+  const render = async (query: string) => {
+    if (!results) return;
+    if (!query.trim()) {
+      results.innerHTML =
+        '<p class="search-hint">Type two or three honest words. No Boolean gymnastics needed.</p>';
+      return;
+    }
+    try {
+      pagefind ??= await loadPagefind('/pagefind/pagefind.js');
+      if (!pagefind) return;
+      const response = await pagefind.search(query);
+      const items = await Promise.all(response.results.slice(0, 12).map((item) => item.data()));
+      results.innerHTML = items.length
+        ? items
+            .map(
+              (item) =>
+                `<article class="result"><span>${item.meta.type ?? 'Field note'}${item.meta.category ? ` · ${item.meta.category.replaceAll('-', ' ')}` : ''}</span><h2><a href="${item.url}">${item.meta.title ?? 'Untitled'}</a></h2><p>${item.excerpt}</p></article>`,
+            )
+            .join('')
+        : '<div class="search-empty"><strong>No useful matches.</strong><p>Try a product name or a broader phrase.</p></div>';
+    } catch {
+      results.innerHTML =
+        '<p class="search-hint">Search becomes available after the production build creates its index.</p>';
+    }
+  };
+  let timer = 0;
+  input?.addEventListener('input', () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => render(input.value), 120);
+  });
+</script>
+<style>
+  label {
+    display: block;
+    margin-bottom: 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+  .input-wrap {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    border: 1px solid var(--ink);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.52);
+    padding: 0 1rem;
+    box-shadow: 5px 5px 0 var(--lime);
+  }
+  input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    padding-block: 1.1rem;
+    font-size: 1.05rem;
+  }
+  :global(.result) {
+    position: relative;
+    border-bottom: 1px solid var(--line);
+    padding: 1.35rem 0.25rem;
+  }
+  :global(.result span) {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  :global(.result h2) {
+    margin: 0.2rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: 1.7rem;
+  }
+  :global(.result p),
+  :global(.search-hint),
+  :global(.search-empty) {
+    color: var(--muted);
+  }
+</style>

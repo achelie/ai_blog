@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { categories } from '../../data/categories';
+import { isPublished, sortByNewest } from '../../utils/content';
+const entries = sortByNewest(await getCollection('best', isPublished));
+const items = entries.map(({ data }) => ({
+  title: data.title,
+  description: data.description,
+  href: `/best/${data.slug}/`,
+  type: 'Best list',
+  category: categories.find((c) => c.slug === data.category)?.name ?? data.category,
+  date: data.publishedAt,
+}));
+---
+
+<CollectionLayout
+  title="Best AI tools"
+  kicker="Shortlists with a method"
+  description="Small, opinionated lists that explain who each product serves and where it falls short."
+  items={items}
+/>

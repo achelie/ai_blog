@@ -1,0 +1,123 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import ArticleCard from '../../components/common/ArticleCard.astro';
+import { isPublished } from '../../utils/content';
+import { absoluteUrl } from '../../utils/seo';
+export async function getStaticPaths() {
+  const authors = await getCollection('authors');
+  return authors.map((author) => ({ params: { slug: author.data.slug }, props: { author } }));
+}
+interface Props {
+  author: CollectionEntry<'authors'>;
+}
+const { author } = Astro.props;
+const collections = await Promise.all([
+  getCollection('reviews', isPublished),
+  getCollection('comparisons', isPublished),
+  getCollection('alternatives', isPublished),
+  getCollection('best', isPublished),
+  getCollection('guides', isPublished),
+]);
+const entries = collections.flat().filter((entry) => entry.data.author === author.data.slug);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: author.data.name,
+  description: author.data.bio,
+  url: absoluteUrl(`/authors/${author.data.slug}/`),
+  image: absoluteUrl(author.data.avatar),
+  jobTitle: author.data.role,
+  sameAs: author.data.socialLinks.map((link) => link.url),
+};
+---
+
+<BaseLayout title={author.data.name} description={author.data.bio} jsonLd={jsonLd}
+  ><div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Authors', url: '/authors/' },
+        { name: author.data.name, url: `/authors/${author.data.slug}/` },
+      ]}
+    /><header>
+      <img
+        class="avatar"
+        src={author.data.avatar}
+        alt={`Portrait of ${author.data.name}`}
+        width="384"
+        height="384"
+      /><div>
+        <span class="section-kicker">{author.data.role}</span><h1>{author.data.name}</h1><p>
+          {author.data.bio}
+        </p>
+      </div>
+    </header><section>
+      <div class="section-head">
+        <span class="section-kicker">Published field notes</span><strong>{entries.length}</strong>
+      </div><div class="grid">
+        {
+          entries.map((entry) => (
+            <ArticleCard
+              title={entry.data.title}
+              description={entry.data.description}
+              href={`/${entry.collection}/${entry.data.slug}/`}
+              type={entry.collection}
+              category={entry.data.category}
+              date={entry.data.publishedAt}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </div></BaseLayout
+>
+<style>
+  header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding-block: 5rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .avatar {
+    width: clamp(7rem, 16vw, 12rem);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--ink);
+    border-radius: 50% 44% 55% 45%;
+    transform: rotate(-4deg);
+  }
+  h1 {
+    margin: 0.4rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(4rem, 9vw, 8rem);
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+  }
+  header p {
+    max-width: 42rem;
+    color: var(--muted);
+  }
+  section {
+    padding-block: 3rem 7rem;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 700px) {
+    header,
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

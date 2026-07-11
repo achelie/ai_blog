@@ -1,0 +1,38 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  summary: string;
+  checkedAt: Date;
+}
+---
+
+<section class="pricing">
+  <Icon name="lucide:receipt-text" size={26} /><div>
+    <span class="section-kicker">Pricing summary</span><h2>{Astro.props.summary}</h2><p>
+      Pricing last checked: {
+        Astro.props.checkedAt.toLocaleDateString('en-US', { dateStyle: 'long' })
+      }. This is a dated editorial note, not live pricing.
+    </p>
+  </div>
+</section>
+<style>
+  .pricing {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 1.4rem 0;
+  }
+  h2 {
+    margin: 0.25rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: 2rem;
+    line-height: 1.05;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+</style>

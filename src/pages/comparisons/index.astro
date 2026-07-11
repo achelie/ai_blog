@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { categories } from '../../data/categories';
+import { isPublished, sortByNewest } from '../../utils/content';
+const entries = sortByNewest(await getCollection('comparisons', isPublished));
+const items = entries.map(({ data }) => ({
+  title: data.title,
+  description: data.description,
+  href: `/comparisons/${data.slug}/`,
+  type: 'Comparison',
+  category: categories.find((c) => c.slug === data.category)?.name ?? data.category,
+  date: data.publishedAt,
+}));
+---
+
+<CollectionLayout
+  title="AI tool comparisons"
+  kicker="Same job, different tools"
+  description="Direct comparisons built around repeatable work—not spec-sheet bingo."
+  items={items}
+/>

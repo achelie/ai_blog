@@ -1,0 +1,25 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getAffiliateLink } from '../../data/affiliate-links';
+interface Props {
+  affiliateKey?: string;
+  fallbackUrl?: string;
+  label?: string;
+}
+const { affiliateKey, fallbackUrl, label } = Astro.props;
+const affiliate = getAffiliateLink(affiliateKey);
+const href = affiliate?.enabled ? affiliate.url : fallbackUrl;
+const rel =
+  affiliate?.enabled && affiliate.sponsored
+    ? 'nofollow sponsored noopener noreferrer'
+    : 'noopener noreferrer';
+---
+
+{
+  href && (
+    <a class="button" href={href} target="_blank" rel={rel}>
+      {label ?? affiliate?.label ?? 'Visit official site'}
+      <Icon name="lucide:arrow-up-right" size={17} />
+    </a>
+  )
+}

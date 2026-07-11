@@ -1,0 +1,64 @@
+---
+import { site } from '../../data/site';
+import { absoluteUrl, pageTitle } from '../../utils/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  publishedAt?: Date;
+  updatedAt?: Date;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const {
+  title,
+  description = site.description,
+  canonical = Astro.url.pathname,
+  image = '/images/editorial-placeholder.svg',
+  type = 'website',
+  noindex = false,
+  publishedAt,
+  updatedAt,
+  jsonLd,
+} = Astro.props;
+const resolvedTitle = pageTitle(title);
+const resolvedCanonical = absoluteUrl(canonical);
+const resolvedImage = absoluteUrl(image);
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  legalName: site.legalName,
+  url: absoluteUrl('/'),
+  description: site.description,
+  email: site.email,
+  founder: {
+    '@type': 'Person',
+    name: site.author,
+    url: absoluteUrl('/authors/ethan-miller/'),
+  },
+};
+---
+
+<title>{resolvedTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={resolvedCanonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:title" content={resolvedTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={resolvedCanonical} />
+<meta property="og:type" content={type} />
+<meta property="og:image" content={resolvedImage} />
+<meta property="og:site_name" content={site.name} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={resolvedTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedImage} />
+{publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
+{updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
+<script is:inline type="application/ld+json" set:html={JSON.stringify(organization)} />
+{jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

@@ -1,0 +1,37 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { isPublished } from '../../utils/content';
+import { absoluteUrl } from '../../utils/seo';
+export async function getStaticPaths() {
+  const entries = await getCollection('guides', isPublished);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+interface Props {
+  entry: CollectionEntry<'guides'>;
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const authors = await getCollection('authors');
+const author = authors.find((item) => item.data.slug === entry.data.author);
+if (!author) throw new Error('Missing guide author');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.publishedAt.toISOString(),
+  dateModified: entry.data.updatedAt.toISOString(),
+  author: { '@type': 'Person', name: author.data.name },
+  mainEntityOfPage: absoluteUrl(`/guides/${entry.data.slug}/`),
+};
+---
+
+<ArticleLayout
+  entry={entry}
+  type="Guide"
+  section="Guides"
+  headings={headings}
+  author={author}
+  jsonLd={jsonLd}><Content /></ArticleLayout
+>

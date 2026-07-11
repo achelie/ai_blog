@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { absoluteUrl } from '../../utils/seo';
+const guides = await getCollection('guides');
+const entry = guides.find((item) => item.data.slug === 'how-we-test-ai-software');
+const authors = await getCollection('authors');
+if (!entry) throw new Error('Missing testing guide');
+const author = authors.find((item) => item.data.slug === entry.data.author);
+if (!author) throw new Error('Missing author');
+const { Content, headings } = await render(entry);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.publishedAt.toISOString(),
+  dateModified: entry.data.updatedAt.toISOString(),
+  author: { '@type': 'Person', name: author.data.name },
+  mainEntityOfPage: absoluteUrl('/how-we-test/'),
+};
+---
+
+<ArticleLayout
+  entry={entry}
+  type="Method"
+  section="How we test"
+  sectionUrl="/how-we-test/"
+  currentUrl="/how-we-test/"
+  headings={headings}
+  author={author}
+  jsonLd={jsonLd}><Content /></ArticleLayout
+>

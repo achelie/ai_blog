@@ -1,0 +1,56 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  name: string;
+  slug: string;
+  bio: string;
+  role: string;
+  avatar: string;
+}
+const { name, slug, bio, role, avatar } = Astro.props;
+---
+
+<aside class="author-box">
+  <img
+    class="avatar"
+    src={avatar}
+    alt={`Portrait of ${name}`}
+    width="128"
+    height="128"
+    loading="lazy"
+  />
+  <div>
+    <span class="section-kicker">Written and checked by</span><h2>
+      <a href={`/authors/${slug}/`}>{name}</a>
+    </h2><p><strong>{role}</strong> — {bio}</p>
+  </div>
+  <Icon name="lucide:badge-check" size={24} />
+</aside>
+<style>
+  .author-box {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-block: 1.2rem;
+  }
+  .avatar {
+    width: 3.2rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--ink);
+    border-radius: 50% 44% 54% 46%;
+  }
+  h2 {
+    margin: 0.15rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: 1.7rem;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+</style>

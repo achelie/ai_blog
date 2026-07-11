@@ -1,0 +1,198 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import ArticleHero from '../../components/article/ArticleHero.astro';
+import DemonstrationNotice from '../../components/article/DemonstrationNotice.astro';
+import TableOfContents from '../../components/article/TableOfContents.astro';
+import AuthorBox from '../../components/article/AuthorBox.astro';
+import LastTested from '../../components/article/LastTested.astro';
+import AffiliateDisclosureBox from '../../components/article/AffiliateDisclosureBox.astro';
+import RelatedArticles from '../../components/article/RelatedArticles.astro';
+import ReviewSummary from '../../components/review/ReviewSummary.astro';
+import RatingBreakdown from '../../components/review/RatingBreakdown.astro';
+import ProsCons from '../../components/review/ProsCons.astro';
+import PricingSummary from '../../components/review/PricingSummary.astro';
+import AffiliateButton from '../../components/review/AffiliateButton.astro';
+import ScreenshotGallery from '../../components/review/ScreenshotGallery.astro';
+import { isPublished } from '../../utils/content';
+import { absoluteUrl } from '../../utils/seo';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('reviews', isPublished);
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+interface Props {
+  entry: CollectionEntry<'reviews'>;
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const [softwareEntries, authorEntries, comparisons, alternatives] = await Promise.all([
+  getCollection('software'),
+  getCollection('authors'),
+  getCollection('comparisons', isPublished),
+  getCollection('alternatives', isPublished),
+]);
+const software = softwareEntries.find((item) => item.data.slug === entry.data.software);
+const author = authorEntries.find((item) => item.data.slug === entry.data.author);
+if (!software || !author) throw new Error(`Missing software or author for ${entry.data.slug}`);
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  image: absoluteUrl(entry.data.featuredImage),
+  datePublished: entry.data.publishedAt.toISOString(),
+  dateModified: entry.data.updatedAt.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author.data.name,
+    url: absoluteUrl(`/authors/${author.data.slug}/`),
+  },
+  mainEntityOfPage: absoluteUrl(`/reviews/${entry.data.slug}/`),
+  creativeWorkStatus: entry.data.demonstration ? 'Demonstration content' : 'Published',
+};
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: software.data.name,
+  applicationCategory: software.data.category,
+  operatingSystem: software.data.platforms.join(', '),
+  url: software.data.website,
+};
+const reviewSchema = !entry.data.demonstration
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Review',
+      name: entry.data.title,
+      reviewBody: entry.data.verdict,
+      datePublished: entry.data.publishedAt.toISOString(),
+      author: { '@type': 'Person', name: author.data.name },
+      itemReviewed: softwareSchema,
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: entry.data.rating.overall,
+        bestRating: 10,
+        worstRating: 0,
+      },
+    }
+  : undefined;
+const jsonLd = [articleSchema, softwareSchema, ...(reviewSchema ? [reviewSchema] : [])];
+const related = [...comparisons, ...alternatives]
+  .filter((item) => item.data.category === entry.data.category)
+  .slice(0, 2)
+  .map((item) => ({
+    title: item.data.title,
+    description: item.data.description,
+    href: `/${item.collection}/${item.data.slug}/`,
+    type: item.collection === 'comparisons' ? 'Comparison' : 'Alternatives',
+    category: item.data.category,
+    date: item.data.publishedAt,
+  }));
+---
+
+<BaseLayout
+  title={entry.data.seo.title}
+  description={entry.data.seo.description}
+  canonical={entry.data.seo.canonical}
+  image={entry.data.featuredImage}
+  type="article"
+  publishedAt={entry.data.publishedAt}
+  updatedAt={entry.data.updatedAt}
+  jsonLd={jsonLd}
+>
+  <div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Reviews', url: '/reviews/' },
+        { name: entry.data.title, url: `/reviews/${entry.data.slug}/` },
+      ]}
+    /><ArticleHero
+      type="Review"
+      category={entry.data.category}
+      title={entry.data.title}
+      description={entry.data.description}
+      publishedAt={entry.data.publishedAt}
+      updatedAt={entry.data.updatedAt}
+    />{entry.data.demonstration && <DemonstrationNotice />}<div class="tested">
+      <LastTested date={entry.data.lastTestedAt} />
+    </div><ReviewSummary
+      verdict={entry.data.verdict}
+      rating={entry.data.rating.overall}
+      bestFor={entry.data.bestFor}
+      notFor={entry.data.notFor}
+      mode={entry.data.testing.mode}
+    /><RatingBreakdown rating={entry.data.rating} /><ProsCons
+      pros={entry.data.pros}
+      cons={entry.data.cons}
+    /><PricingSummary {...entry.data.pricing} /><div class="software-action">
+      <div>
+        <span class="section-kicker">Official product page</span><p>
+          Affiliate routing is disabled in this demonstration build.
+        </p>
+      </div><AffiliateButton
+        affiliateKey={entry.data.affiliate.key}
+        fallbackUrl={software.data.website}
+        label={`Visit ${software.data.name}`}
+      />
+    </div>
+  </div>
+  <div class="shell article-grid">
+    <aside><TableOfContents headings={headings} /></aside><article class="prose">
+      <section>
+        <h2>How we tested</h2><p>
+          This demonstration defines the test tasks; it does not claim they were completed.
+        </p><ul>{entry.data.testing.tasks.map((task) => <li>{task}</li>)}</ul>
+      </section><Content /><ScreenshotGallery /><AffiliateDisclosureBox />
+    </article>
+  </div>
+  <div class="shell after-article">
+    <AuthorBox {...author.data} />{related.length > 0 && <RelatedArticles items={related} />}
+  </div>
+</BaseLayout>
+<style>
+  .tested {
+    display: flex;
+    justify-content: flex-end;
+    padding-block: 0.7rem;
+  }
+  .software-action {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1.5rem;
+  }
+  .software-action p {
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 44rem);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+    padding-block: 4rem;
+  }
+  .article-grid > aside {
+    position: sticky;
+    top: 7rem;
+  }
+  .after-article {
+    padding-bottom: 7rem;
+  }
+  @media (max-width: 800px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+    .article-grid > aside {
+      position: static;
+    }
+    .software-action {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

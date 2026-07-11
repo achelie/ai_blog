@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+import ArticleCard from '../../components/common/ArticleCard.astro';
+import EmptyState from '../../components/common/EmptyState.astro';
+import { categories } from '../../data/categories';
+import { isPublished } from '../../utils/content';
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
+}
+interface Props {
+  category: (typeof categories)[number];
+}
+const { category } = Astro.props as Props;
+const collections = await Promise.all([
+  getCollection('reviews', isPublished),
+  getCollection('comparisons', isPublished),
+  getCollection('alternatives', isPublished),
+  getCollection('best', isPublished),
+  getCollection('guides', isPublished),
+]);
+const labels = {
+  reviews: 'Review',
+  comparisons: 'Comparison',
+  alternatives: 'Alternatives',
+  best: 'Best list',
+  guides: 'Guide',
+} as const;
+const groups = collections.map((entries, index) => {
+  const collection = (['reviews', 'comparisons', 'alternatives', 'best', 'guides'] as const)[index];
+  return {
+    collection,
+    label: labels[collection],
+    entries: entries.filter((entry) => entry.data.category === category.slug),
+  };
+});
+---
+
+<BaseLayout title={category.name} description={category.description}
+  ><div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Categories', url: '/categories/' },
+        { name: category.name, url: `/categories/${category.slug}/` },
+      ]}
+    /><header>
+      <span class="marker">{category.marker}</span><div>
+        <span class="section-kicker">Category field desk</span><h1>{category.name}</h1><p>
+          {category.description}
+        </p>
+      </div>
+    </header>{
+      groups.map((group) => (
+        <section>
+          <div class="group-head">
+            <>
+              <span class="section-kicker">{group.label}</span>
+              <span>{group.entries.length}</span>
+            </>
+          </div>
+          {group.entries.length ? (
+            <div class="grid">
+              {group.entries.map((entry) => (
+                <ArticleCard
+                  title={entry.data.title}
+                  description={entry.data.description}
+                  href={`/${group.collection}/${entry.data.slug}/`}
+                  type={group.label}
+                  category={category.name}
+                  date={entry.data.publishedAt}
+                />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              title={`No ${group.label.toLowerCase()} notes yet`}
+              message="The desk is open; the evidence is not ready."
+            />
+          )}
+        </section>
+      ))
+    }
+  </div></BaseLayout
+>
+<style>
+  header {
+    display: grid;
+    grid-template-columns: 0.3fr 1.7fr;
+    gap: 2rem;
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .marker {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 7rem;
+    color: var(--signal);
+  }
+  h1 {
+    margin: 0.4rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.85;
+    letter-spacing: -0.055em;
+  }
+  header p {
+    max-width: 42rem;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  section {
+    padding-block: 3rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .group-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1rem;
+  }
+  @media (max-width: 700px) {
+    header,
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .marker {
+      font-size: 4rem;
+    }
+  }
+</style>

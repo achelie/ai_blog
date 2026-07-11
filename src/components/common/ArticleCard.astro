@@ -1,0 +1,90 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  type: string;
+  category: string;
+  date: Date;
+  accent?: 'lime' | 'signal' | 'sky';
+}
+const { title, description, href, type, category, date, accent = 'lime' } = Astro.props;
+---
+
+<article class:list={['card', `accent-${accent}`]}>
+  <div class="card-top">
+    <span class="tag">{type}</span><span class="date"
+      >{date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span
+    >
+  </div>
+  <div class="card-body">
+    <p class="section-kicker">{category.replaceAll('-', ' ')}</p>
+    <h3><a href={href}>{title}</a></h3>
+    <p>{description}</p>
+  </div>
+  <div class="card-foot">
+    <span>Read the note</span><Icon name="lucide:arrow-up-right" size={19} />
+  </div>
+</article>
+
+<style>
+  article {
+    padding: 1.15rem;
+  }
+  article::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32%;
+    height: 0.38rem;
+    background: var(--accent);
+  }
+  .accent-lime {
+    --accent: var(--lime);
+  }
+  .accent-signal {
+    --accent: var(--signal);
+  }
+  .accent-sky {
+    --accent: var(--sky);
+  }
+  .card-top,
+  .card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .date {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .card-body {
+    padding-block: clamp(2.5rem, 5vw, 5.5rem) 2rem;
+  }
+  h3 {
+    margin: 0.45rem 0 0.65rem;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(1.75rem, 3vw, 2.65rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+  }
+  h3 a {
+    text-decoration: none;
+  }
+  .card-body > p:last-child {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .card-foot {
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 0.85rem;
+    font-size: 0.77rem;
+    font-weight: 800;
+  }
+</style>

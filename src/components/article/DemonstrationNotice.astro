@@ -1,0 +1,28 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<aside class="demo-notice" role="note" data-pagefind-ignore>
+  <Icon name="lucide:construction" size={22} /><div>
+    <strong>Demonstration content—not buying advice.</strong><p>
+      This page proves the publishing template. Scores, verdicts, prices, and screenshots must be
+      replaced with verified hands-on evidence before publication.
+    </p>
+  </div>
+</aside>
+<style>
+  .demo-notice {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    border: 1px solid var(--ink);
+    border-radius: 0.8rem;
+    background: var(--signal);
+    color: white;
+    padding: 1rem;
+  }
+  .demo-notice p {
+    margin: 0.15rem 0 0;
+    font-size: 0.8rem;
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  name: string;
+  logo: string;
+  platforms: string[];
+  hasFreePlan: boolean;
+  startingPrice: number | null;
+  currency: string;
+  website: string;
+  pricingCheckedAt: Date;
+}
+const { name, logo, platforms, hasFreePlan, startingPrice, currency, website, pricingCheckedAt } =
+  Astro.props;
+---
+
+<article class="software-card">
+  <div class="software-logo" aria-hidden="true">{logo}</div>
+  <div><h3>{name}</h3><p>{platforms.join(' · ')}</p></div>
+  <dl>
+    <div><dt>Free plan</dt><dd>{hasFreePlan ? 'Listed' : 'Not listed'}</dd></div>
+    <div>
+      <dt>Starting price</dt><dd>
+        {startingPrice === null ? 'Verify with vendor' : `${currency} ${startingPrice}`}
+      </dd>
+    </div>
+  </dl>
+  <small>Pricing last checked: {pricingCheckedAt.toLocaleDateString('en-US')}</small>
+  <a href={website} target="_blank" rel="noopener noreferrer"
+    >Official site <Icon name="lucide:external-link" size={15} /></a
+  >
+</article>
+<style>
+  .software-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    padding: 1.15rem;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .software-logo {
+    display: grid;
+    place-items: center;
+    width: 3.1rem;
+    aspect-ratio: 1;
+    border: 1px solid var(--ink);
+    border-radius: 0.7rem;
+    background: var(--sky);
+    font-family: 'Newsreader Variable', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  h3,
+  p {
+    margin: 0;
+  }
+  p,
+  small {
+    color: var(--muted);
+  }
+  dl {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0.5rem 0 0;
+    border-top: 1px solid var(--line);
+  }
+  dl div {
+    padding-top: 0.7rem;
+  }
+  dt {
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+    font-weight: 750;
+  }
+  small {
+    grid-column: 1 / -1;
+  }
+  a {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    width: fit-content;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+</style>

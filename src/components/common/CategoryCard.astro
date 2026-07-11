@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  name: string;
+  description: string;
+  slug: string;
+  marker: string;
+}
+const { name, description, slug, marker } = Astro.props;
+---
+
+<article class="category-card">
+  <span class="marker">{marker}</span>
+  <div><h3><a href={`/categories/${slug}/`}>{name}</a></h3><p>{description}</p></div>
+  <Icon name="lucide:corner-right-down" size={25} />
+</article>
+<style>
+  .category-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    border-top: 1px solid var(--ink);
+    padding: 1.35rem 0.25rem;
+    transition:
+      padding-left var(--duration-fast) var(--ease-smooth-out),
+      background-color var(--duration-quick) var(--ease-out);
+  }
+  .category-card:hover {
+    padding-left: 0.8rem;
+    background: rgba(201, 255, 69, 0.2);
+  }
+  .marker {
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+  h3 {
+    margin: 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(1.65rem, 3vw, 2.4rem);
+    line-height: 1;
+  }
+  h3 a {
+    text-decoration: none;
+  }
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  p {
+    max-width: 36rem;
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+</style>

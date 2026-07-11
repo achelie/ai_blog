@@ -1,0 +1,88 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Item {
+  src: string;
+  alt: string;
+  caption: string;
+}
+interface Props {
+  items?: Item[];
+}
+const items = Astro.props.items ?? [];
+---
+
+<section class="screenshots">
+  <div class="screenshots-head">
+    <div>
+      <span class="section-kicker">Original screenshots</span><h2>Evidence goes here.</h2>
+    </div><Icon name="lucide:camera" size={27} />
+  </div>{
+    items.length ? (
+      <div class="gallery">
+        {items.map((item) => (
+          <figure>
+            <img src={item.src} alt={item.alt} width="960" height="600" loading="lazy" />
+            <figcaption>{item.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    ) : (
+      <div class="placeholder">
+        <>
+          <Icon name="lucide:image" size={36} />
+          <p>Replace this area with verified, original screenshots after the hands-on test.</p>
+        </>
+      </div>
+    )
+  }
+</section>
+<style>
+  .screenshots {
+    margin-block: 3.5rem;
+  }
+  .screenshots-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 1rem;
+  }
+  .screenshots h2 {
+    margin: 0.25rem 0 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: 2.4rem;
+  }
+  .placeholder {
+    display: grid;
+    place-items: center;
+    min-height: 18rem;
+    border: 1px dashed var(--ink);
+    border-top: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 12px,
+      rgba(23, 23, 19, 0.04) 12px,
+      rgba(23, 23, 19, 0.04) 24px
+    );
+    text-align: center;
+    padding: 2rem;
+  }
+  .placeholder p {
+    max-width: 28rem;
+    color: var(--muted);
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .gallery img {
+    width: 100%;
+    height: auto;
+  }
+  .gallery figcaption {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+</style>

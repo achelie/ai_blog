@@ -1,0 +1,97 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  verdict: string;
+  rating: number;
+  bestFor: string[];
+  notFor: string[];
+  mode: string;
+}
+const { verdict, rating, bestFor, notFor, mode } = Astro.props;
+---
+
+<section class="summary">
+  <div class="verdict">
+    <span class="section-kicker">Quick verdict · {mode}</span><h2>{verdict}</h2>
+  </div>
+  <div class="score">
+    <span>Overall rating</span><strong>{rating.toFixed(1)}</strong><small
+      >out of 10 · demonstration score</small
+    >
+  </div>
+  <div class="fit good">
+    <Icon name="lucide:check" size={19} /><div>
+      <strong>Best for</strong><ul>{bestFor.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </div>
+  <div class="fit bad">
+    <Icon name="lucide:x" size={19} /><div>
+      <strong>Not recommended for</strong><ul>{notFor.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </div>
+</section>
+<style>
+  .summary {
+    display: grid;
+    grid-template-columns: 1.45fr 0.55fr;
+    border: 1px solid var(--ink);
+    border-radius: 1.3rem;
+    overflow: clip;
+    background: rgba(255, 255, 255, 0.32);
+  }
+  .summary > * {
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+  .verdict {
+    border-right: 1px solid var(--ink);
+  }
+  .verdict h2 {
+    margin: 0.65rem 0 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1.03;
+  }
+  .score {
+    display: flex;
+    flex-direction: column;
+    background: var(--lime);
+  }
+  .score > span,
+  .score small {
+    font-size: 0.7rem;
+    font-weight: 750;
+  }
+  .score strong {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 5rem;
+    line-height: 1;
+  }
+  .fit {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.7rem;
+    border-top: 1px solid var(--ink);
+  }
+  .fit:first-of-type {
+    border-right: 1px solid var(--ink);
+  }
+  ul {
+    margin: 0.4rem 0 0;
+    padding-left: 1rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  @media (max-width: 720px) {
+    .summary {
+      grid-template-columns: 1fr;
+    }
+    .verdict,
+    .fit:first-of-type {
+      border-right: 0;
+    }
+    .score,
+    .fit {
+      border-top: 1px solid var(--ink);
+    }
+  }
+</style>

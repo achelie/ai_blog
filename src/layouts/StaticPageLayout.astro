@@ -1,0 +1,79 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/common/Breadcrumbs.astro';
+interface Props {
+  title: string;
+  description: string;
+  kicker?: string;
+  noindex?: boolean;
+}
+const { title, description, kicker = 'evidique', noindex = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: title, url: Astro.url.pathname },
+      ]}
+    /><header class="static-hero">
+      <span class="section-kicker">{kicker}</span><h1>{title}</h1><p>{description}</p>
+    </header><div class="static-grid">
+      <aside>
+        <span class="index">{String(title.length).padStart(2, '0')}</span><p>
+          Clear words. Visible caveats. No legal cosplay.
+        </p>
+      </aside><article class="prose"><slot /></article>
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .static-hero {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr;
+    gap: 2rem;
+    align-items: end;
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .static-hero .section-kicker {
+    grid-column: 1/-1;
+  }
+  .static-hero h1 {
+    margin: 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.86;
+    letter-spacing: -0.055em;
+  }
+  .static-hero > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .static-grid {
+    display: grid;
+    grid-template-columns: 0.45fr 1.55fr;
+    gap: clamp(2rem, 8vw, 8rem);
+    padding-block: 4rem 7rem;
+  }
+  .static-grid aside {
+    color: var(--muted);
+    font-size: 0.76rem;
+  }
+  .index {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 4rem;
+    color: var(--signal);
+  }
+  @media (max-width: 700px) {
+    .static-hero,
+    .static-grid {
+      grid-template-columns: 1fr;
+    }
+    .static-hero > p {
+      margin-top: 1rem;
+    }
+  }
+</style>

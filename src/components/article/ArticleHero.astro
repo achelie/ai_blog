@@ -1,0 +1,83 @@
+---
+import LastUpdated from './LastUpdated.astro';
+interface Props {
+  type: string;
+  category: string;
+  title: string;
+  description: string;
+  publishedAt: Date;
+  updatedAt: Date;
+}
+const { type, category, title, description, publishedAt, updatedAt } = Astro.props;
+---
+
+<header class="article-hero" data-pagefind-meta={`type:${type}`}>
+  <div class="eyebrow">
+    <span class="tag" data-pagefind-meta="type">{type}</span><span
+      class="section-kicker"
+      data-pagefind-meta="category">{category.replaceAll('-', ' ')}</span
+    >
+  </div>
+  <h1 data-pagefind-meta="title">{title}</h1>
+  <p data-pagefind-meta="description">{description}</p>
+  <div class="dates">
+    <span>Published {publishedAt.toLocaleDateString('en-US', { dateStyle: 'medium' })}</span
+    ><LastUpdated date={updatedAt} />
+  </div>
+</header>
+<style>
+  .article-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(16rem, 0.6fr);
+    column-gap: 2rem;
+    padding-block: clamp(3rem, 8vw, 7rem);
+  }
+  .eyebrow {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  h1 {
+    grid-column: 1;
+    margin: 1rem 0 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(3.2rem, 7vw, 6.6rem);
+    font-weight: 550;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+  }
+  > p {
+    grid-column: 2;
+    align-self: end;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .dates {
+    grid-column: 1/-1;
+    display: flex;
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+    margin-top: 2rem;
+    padding-top: 0.8rem;
+    font-size: 0.76rem;
+    color: var(--muted);
+  }
+  @media (max-width: 760px) {
+    .article-hero {
+      grid-template-columns: 1fr;
+    }
+    h1,
+    > p {
+      grid-column: 1;
+    }
+    > p {
+      margin-top: 1.5rem;
+    }
+    .dates {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+  }
+</style>

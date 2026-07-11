@@ -1,0 +1,107 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Alternative {
+  name: string;
+  bestFor: string;
+  advantage: string;
+  drawback: string;
+  price: string;
+  reviewUrl?: string;
+}
+interface Props {
+  items: Alternative[];
+}
+---
+
+<div class="alternatives-list">
+  {
+    Astro.props.items.map((item, index) => (
+      <article>
+        <>
+          <span class="rank">0{index + 1}</span>
+          <div>
+            <dl>
+              <>
+                <div>
+                  <>
+                    <dt>Where it wins</dt>
+                    <dd>{item.advantage}</dd>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <dt>Where it gives up ground</dt>
+                    <dd>{item.drawback}</dd>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <dt>Price note</dt>
+                    <dd>{item.price}</dd>
+                  </>
+                </div>
+              </>
+            </dl>
+            {item.reviewUrl && (
+              <a href={item.reviewUrl}>
+                Read independent review <Icon name="lucide:arrow-right" size={16} />
+              </a>
+            )}
+          </div>
+        </>
+      </article>
+    ))
+  }
+</div>
+<style>
+  article {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1rem;
+    border-top: 1px solid var(--ink);
+    padding: 2rem 0;
+  }
+  .rank {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 2rem;
+    color: var(--signal);
+  }
+  h2 {
+    margin: 0.25rem 0 1rem;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 0.9;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.7fr;
+    gap: 1rem;
+  }
+  dt {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  dd {
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: fit-content;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+  @media (max-width: 650px) {
+    article {
+      grid-template-columns: 2.5rem 1fr;
+    }
+    dl {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

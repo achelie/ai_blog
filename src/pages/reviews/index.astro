@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { categories } from '../../data/categories';
+import { isPublished, sortByNewest } from '../../utils/content';
+const entries = sortByNewest(await getCollection('reviews', isPublished));
+const items = entries.map(({ data }) => ({
+  title: data.title,
+  description: data.description,
+  href: `/reviews/${data.slug}/`,
+  type: 'Review',
+  category: categories.find((c) => c.slug === data.category)?.name ?? data.category,
+  date: data.publishedAt,
+}));
+---
+
+<CollectionLayout
+  title="AI software reviews"
+  kicker="Hands on, caveats visible"
+  description="Focused software reviews for people who build, publish, automate, and pay their own tool bills."
+  items={items}
+/>

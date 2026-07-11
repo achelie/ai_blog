@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
+const authors = await getCollection('authors');
+---
+
+<BaseLayout
+  title="Authors"
+  description="Meet the human editors responsible for evidique testing, claims, corrections, and verdicts."
+  ><div class="shell">
+    <Breadcrumbs
+      items={[
+        { name: 'Home', url: '/' },
+        { name: 'Authors', url: '/authors/' },
+      ]}
+    /><header>
+      <span class="section-kicker">Humans on the hook</span><h1 class="display">The masthead</h1>
+    </header><section>
+      {
+        authors.map((author) => (
+          <article>
+            <>
+              <img
+                src={author.data.avatar}
+                alt={`Portrait of ${author.data.name}`}
+                width="128"
+                height="128"
+                loading="lazy"
+              />
+              <div>
+                <>
+                  <h2>
+                    <a href={`/authors/${author.data.slug}/`}>{author.data.name}</a>
+                  </h2>
+                  <p>{author.data.role}</p>
+                  <small>{author.data.bio}</small>
+                </>
+              </div>
+            </>
+          </article>
+        ))
+      }
+    </section>
+  </div></BaseLayout
+>
+<style>
+  header {
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  header h1 {
+    margin: 0.5rem 0;
+  }
+  section {
+    padding-block: 3rem 7rem;
+  }
+  article {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+    padding: 1.5rem 0;
+  }
+  article > img {
+    width: 4rem;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+  }
+  h2,
+  p {
+    margin: 0;
+  }
+  h2 {
+    font-family: 'Newsreader Variable', serif;
+    font-size: 2rem;
+  }
+  small {
+    color: var(--muted);
+  }
+</style>

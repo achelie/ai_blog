@@ -1,0 +1,63 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="The requested evidique page could not be found."
+  noindex
+  ><section class="shell not-found">
+    <span>404</span><div>
+      <p class="section-kicker">This note fell out of the binder</p><h1>
+        Nothing useful lives at this address.
+      </h1><p>
+        Try search, browse the reviews, or go back to the homepage. We checked under the desk too.
+      </p><div class="actions">
+        <a class="button button--light" href="/"><Icon name="lucide:home" size={17} /> Home</a><a
+          class="button button--ghost"
+          href="/search/"><Icon name="lucide:search" size={17} /> Search</a
+        >
+      </div>
+    </div>
+  </section></BaseLayout
+>
+<style>
+  .not-found {
+    display: grid;
+    grid-template-columns: 0.6fr 1.4fr;
+    gap: clamp(2rem, 8vw, 8rem);
+    align-items: center;
+    min-height: 75vh;
+  }
+  .not-found > span {
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(7rem, 20vw, 16rem);
+    color: var(--signal);
+    transform: rotate(-8deg);
+  }
+  h1 {
+    margin: 0.5rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+  }
+  .not-found p:not(.section-kicker) {
+    max-width: 34rem;
+    color: var(--muted);
+  }
+  .actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 700px) {
+    .not-found {
+      grid-template-columns: 1fr;
+    }
+    .not-found > span {
+      font-size: 8rem;
+    }
+  }
+</style>

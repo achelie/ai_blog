@@ -1,0 +1,355 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/common/ArticleCard.astro';
+import CategoryCard from '../components/common/CategoryCard.astro';
+import NewsletterPlaceholder from '../components/common/NewsletterPlaceholder.astro';
+import { categories } from '../data/categories';
+import { isPublished, sortByNewest } from '../utils/content';
+
+const [reviews, comparisons, alternatives, best] = await Promise.all([
+  getCollection('reviews', isPublished),
+  getCollection('comparisons', isPublished),
+  getCollection('alternatives', isPublished),
+  getCollection('best', isPublished),
+]);
+const newestReviews = sortByNewest(reviews).slice(0, 2);
+const latestComparisons = sortByNewest(comparisons).slice(0, 2);
+const latestAlternatives = sortByNewest(alternatives).slice(0, 1);
+const latestBest = sortByNewest(best).slice(0, 1);
+const categoryName = (slug: string) => categories.find((item) => item.slug === slug)?.name ?? slug;
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-copy t-stagger is-shown">
+      <span class="t-stagger-line t-stagger-line--1 section-kicker"
+        >Independent · reader-funded · evidence first</span
+      >
+      <h1 class="t-stagger-line t-stagger-line--2">
+        Independent AI Software Reviews<br /><em>for Builders and Website Owners</em>
+      </h1>
+      <p class="t-stagger-line t-stagger-line--2">
+        We test AI tools on real coding, SEO, automation, and website-building workflows to help you
+        decide what is worth paying for.
+      </p>
+    </div>
+    <aside class="test-ticket" aria-label="Our review promise">
+      <div class="ticket-top">
+        <span>FIELD TEST № 001</span><Icon name="lucide:scan-line" size={28} />
+      </div>
+      <div class="dial"><span>Evidence</span><strong>over</strong><span>hype</span></div>
+      <ul>
+        <li>Repeatable tasks</li><li>Dated pricing checks</li><li>Original screenshots</li><li>
+          Human verdicts
+        </li>
+      </ul>
+      <div class="ticket-foot">No logo cemeteries.<br />No “10x your life” nonsense.</div>
+    </aside>
+    <a class="scroll-note" href="#latest"
+      ><Icon name="lucide:arrow-down" size={18} /> Start with the latest notes</a
+    >
+  </section>
+
+  <section class="section categories shell">
+    <div class="section-intro">
+      <span class="section-kicker">Four desks, no junk drawer</span><h2 class="headline">
+        Pick the job.<br />Then pick the tool.
+      </h2>
+    </div>
+    <div>{categories.map((category) => <CategoryCard {...category} />)}</div>
+  </section>
+
+  <section class="section shell" id="latest">
+    <div class="section-bar">
+      <div>
+        <span class="section-kicker">Fresh from the bench</span><h2 class="headline">
+          Latest reviews
+        </h2>
+      </div><a class="button button--ghost" href="/reviews/"
+        >All reviews <Icon name="lucide:arrow-right" size={17} /></a
+      >
+    </div>
+    <div class="feature-grid">
+      {
+        newestReviews.map((entry, index) => (
+          <ArticleCard
+            title={entry.data.title}
+            description={entry.data.description}
+            href={`/reviews/${entry.data.slug}/`}
+            type="Review"
+            category={categoryName(entry.data.category)}
+            date={entry.data.publishedAt}
+            accent={index ? 'signal' : 'lime'}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section shell split-editorial">
+    <div>
+      <span class="section-kicker">Head-to-head</span><h2 class="headline">
+        Popular comparisons
+      </h2><p class="lede">
+        Same task. Same constraints. Different software. That is how a comparison becomes useful.
+      </p>
+    </div>
+    <div>
+      {
+        latestComparisons.map((entry) => (
+          <ArticleCard
+            title={entry.data.title}
+            description={entry.data.description}
+            href={`/comparisons/${entry.data.slug}/`}
+            type="Comparison"
+            category={categoryName(entry.data.category)}
+            date={entry.data.publishedAt}
+            accent="sky"
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section shell mixed-grid">
+    <div class="alternatives-block">
+      <span class="section-kicker">When plan A annoys you</span><h2 class="headline">
+        Latest alternatives
+      </h2>{
+        latestAlternatives.map((entry) => (
+          <ArticleCard
+            title={entry.data.title}
+            description={entry.data.description}
+            href={`/alternatives/${entry.data.slug}/`}
+            type="Alternatives"
+            category={categoryName(entry.data.category)}
+            date={entry.data.publishedAt}
+            accent="signal"
+          />
+        ))
+      }
+    </div>
+    <div class="best-block">
+      <span class="section-kicker">Shortlists with receipts</span><h2 class="headline">
+        Best AI tools
+      </h2>{
+        latestBest.map((entry) => (
+          <ArticleCard
+            title={entry.data.title}
+            description={entry.data.description}
+            href={`/best/${entry.data.slug}/`}
+            type="Best list"
+            category={categoryName(entry.data.category)}
+            date={entry.data.publishedAt}
+            accent="lime"
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section test-method">
+    <div class="shell test-method-grid">
+      <div class="method-number">07</div>
+      <div>
+        <span class="section-kicker">How we test</span><h2 class="headline">
+          Seven scores.<br />One human verdict.
+        </h2>
+      </div>
+      <div>
+        <p>
+          We run job-sized tasks, keep the ugly failures, inspect exports, and date every pricing
+          check. Output quality carries 25% of the score. Documentation carries 5%. Math beats
+          vibes.
+        </p><a class="button button--light" href="/how-we-test/"
+          >Read the full method <Icon name="lucide:arrow-up-right" size={17} /></a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell"><NewsletterPlaceholder /></section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(17rem, 0.55fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    min-height: calc(100vh - 4.8rem);
+    align-items: center;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+  .hero h1 {
+    margin: 0.8rem 0 1.5rem;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(3.4rem, 7.7vw, 7.6rem);
+    font-weight: 560;
+    line-height: 0.83;
+    letter-spacing: -0.06em;
+  }
+  .hero h1 em {
+    color: var(--signal);
+    font-weight: 480;
+  }
+  .hero-copy > p {
+    max-width: 48rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+  }
+  .test-ticket {
+    border: 1px solid var(--ink);
+    border-radius: 1rem;
+    background: var(--lime);
+    box-shadow: 8px 8px 0 var(--ink);
+    padding: 1.15rem;
+    transform: rotate(2deg);
+  }
+  .ticket-top,
+  .ticket-foot {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed var(--ink);
+    padding-bottom: 0.8rem;
+    font-size: 0.65rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+  }
+  .dial {
+    display: grid;
+    place-items: center;
+    min-height: 13rem;
+    border-bottom: 1px dashed var(--ink);
+    font-family: 'Newsreader Variable', serif;
+    font-size: 1.3rem;
+  }
+  .dial strong {
+    font-size: 4.6rem;
+    line-height: 0.6;
+    color: var(--signal);
+    transform: rotate(-5deg);
+  }
+  .test-ticket ul {
+    padding-left: 1.2rem;
+    font-size: 0.8rem;
+  }
+  .ticket-foot {
+    border: 0;
+    border-top: 1px dashed var(--ink);
+    padding: 0.8rem 0 0;
+    line-height: 1.4;
+  }
+  .scroll-note {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 750;
+  }
+  .categories {
+    display: grid;
+    grid-template-columns: 0.78fr 1.22fr;
+    gap: clamp(3rem, 8vw, 9rem);
+  }
+  .section-intro {
+    position: sticky;
+    top: 8rem;
+    align-self: start;
+  }
+  .section-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: end;
+    margin-bottom: 2rem;
+  }
+  .section-bar h2 {
+    margin: 0.4rem 0 0;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+    gap: 1rem;
+  }
+  .split-editorial {
+    display: grid;
+    grid-template-columns: 0.72fr 1.28fr;
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: center;
+  }
+  .mixed-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1rem;
+  }
+  :global(.mixed-grid .card) {
+    min-height: auto;
+  }
+  .mixed-grid h2 {
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    margin: 0.5rem 0 1.4rem;
+  }
+  .test-method {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .test-method-grid {
+    display: grid;
+    grid-template-columns: 0.35fr 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: end;
+  }
+  .method-number {
+    align-self: start;
+    font-family: 'Newsreader Variable', serif;
+    font-size: 6rem;
+    color: var(--lime);
+  }
+  .test-method p {
+    color: #c7c1b4;
+  }
+  .test-method .headline {
+    margin: 0.5rem 0 0;
+  }
+  @media (max-width: 800px) {
+    .hero,
+    .categories,
+    .split-editorial,
+    .test-method-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero {
+      min-height: auto;
+    }
+    .test-ticket {
+      max-width: 25rem;
+    }
+    .scroll-note {
+      display: none;
+    }
+    .section-intro {
+      position: static;
+    }
+    .feature-grid,
+    .mixed-grid {
+      grid-template-columns: 1fr;
+    }
+    .section-bar {
+      align-items: start;
+      flex-direction: column;
+    }
+    .test-method-grid {
+      gap: 1rem;
+    }
+    .method-number {
+      font-size: 4rem;
+    }
+  }
+</style>

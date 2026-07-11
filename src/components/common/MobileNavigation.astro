@@ -1,0 +1,120 @@
+---
+import { Icon } from 'astro-icon/components';
+import { primaryNavigation } from '../../data/navigation';
+---
+
+<button class="menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-menu">
+  <Icon name="lucide:menu" size={21} />
+  <span>Menu</span>
+</button>
+<div class="mobile-menu t-panel-slide" id="mobile-menu" data-open="false" aria-hidden="true" inert>
+  <div class="mobile-menu__head shell">
+    <span class="section-kicker">Browse the field notes</span>
+    <button class="menu-close" type="button" aria-label="Close menu"
+      ><Icon name="lucide:x" size={25} /></button
+    >
+  </div>
+  <nav class="mobile-menu__links shell" aria-label="Mobile navigation">
+    {
+      primaryNavigation.map((item, index) => (
+        <a href={item.href}>
+          <small>0{index + 1}</small>
+          {item.label}
+          <Icon name="lucide:arrow-up-right" size={22} />
+        </a>
+      ))
+    }
+    <a href="/search/"><small>06</small>Search<Icon name="lucide:search" size={22} /></a>
+  </nav>
+</div>
+
+<script>
+  const trigger = document.querySelector<HTMLButtonElement>('.menu-trigger');
+  const close = document.querySelector<HTMLButtonElement>('.menu-close');
+  const panel = document.querySelector<HTMLElement>('#mobile-menu');
+  const setOpen = (open: boolean) => {
+    if (!trigger || !panel) return;
+    trigger.setAttribute('aria-expanded', String(open));
+    panel.dataset.open = String(open);
+    panel.setAttribute('aria-hidden', String(!open));
+    panel.toggleAttribute('inert', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) close?.focus();
+    else trigger.focus();
+  };
+  trigger?.addEventListener('click', () => setOpen(true));
+  close?.addEventListener('click', () => setOpen(false));
+  panel
+    ?.querySelectorAll('a')
+    .forEach((link) => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && panel?.dataset.open === 'true') setOpen(false);
+  });
+</script>
+
+<style>
+  .menu-trigger {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--lime);
+    padding: 0.58rem 0.8rem;
+    font-size: 0.77rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(circle at 90% 10%, rgba(201, 255, 69, 0.32), transparent 18rem),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    overflow: auto;
+    --panel-translate-y: 24px;
+  }
+  .mobile-menu__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 4.8rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-close {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    background: transparent;
+    width: 2.7rem;
+    aspect-ratio: 1;
+    cursor: pointer;
+  }
+  .mobile-menu__links {
+    display: grid;
+    padding-block: 2rem;
+  }
+  .mobile-menu__links a {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr auto;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding: 1rem 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(2.2rem, 10vw, 4rem);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .mobile-menu__links small {
+    font-family: 'Public Sans Variable', sans-serif;
+    font-size: 0.7rem;
+  }
+  @media (max-width: 900px) {
+    .menu-trigger {
+      display: flex;
+    }
+  }
+</style>

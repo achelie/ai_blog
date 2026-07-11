@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { categories } from '../../data/categories';
+import { isPublished, sortByNewest } from '../../utils/content';
+const entries = sortByNewest(await getCollection('alternatives', isPublished));
+const items = entries.map(({ data }) => ({
+  title: data.title,
+  description: data.description,
+  href: `/alternatives/${data.slug}/`,
+  type: 'Alternatives',
+  category: categories.find((c) => c.slug === data.category)?.name ?? data.category,
+  date: data.publishedAt,
+}));
+---
+
+<CollectionLayout
+  title="AI tool alternatives"
+  kicker="A useful plan B"
+  description="Practical substitutes, with the reason to switch and the compromise you inherit."
+  items={items}
+/>

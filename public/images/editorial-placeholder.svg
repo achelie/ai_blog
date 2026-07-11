@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">evidique demonstration artwork</title>
+  <desc id="desc">Abstract editorial blocks labeled demonstration content</desc>
+  <defs><filter id="noise"><feTurbulence baseFrequency=".75" numOctaves="4" stitchTiles="stitch"/><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .08 0"/></filter></defs>
+  <rect width="1600" height="900" fill="#f4f0e6"/>
+  <path d="M0 730 640 90l310 810H0Z" fill="#c9ff45" stroke="#171713" stroke-width="8"/>
+  <circle cx="1240" cy="240" r="190" fill="#ff5a36" stroke="#171713" stroke-width="8"/>
+  <rect x="760" y="500" width="710" height="250" rx="28" fill="#96d7e8" stroke="#171713" stroke-width="8" transform="rotate(-4 760 500)"/>
+  <text x="835" y="635" fill="#171713" font-family="Georgia,serif" font-size="74">DEMONSTRATION</text>
+  <text x="838" y="700" fill="#171713" font-family="Arial,sans-serif" font-size="30" letter-spacing="8">REPLACE WITH ORIGINAL EVIDENCE</text>
+  <rect width="1600" height="900" filter="url(#noise)" opacity=".45"/>
+</svg>

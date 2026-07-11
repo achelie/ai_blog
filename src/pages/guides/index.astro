@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionLayout from '../../layouts/CollectionLayout.astro';
+import { categories } from '../../data/categories';
+import { isPublished, sortByNewest } from '../../utils/content';
+const entries = sortByNewest(await getCollection('guides', isPublished));
+const items = entries.map(({ data }) => ({
+  title: data.title,
+  description: data.description,
+  href: `/guides/${data.slug}/`,
+  type: 'Guide',
+  category: categories.find((c) => c.slug === data.category)?.name ?? data.category,
+  date: data.publishedAt,
+}));
+---
+
+<CollectionLayout
+  title="AI software guides"
+  kicker="Do the work, skip the fog"
+  description="Straightforward tutorials and methods for choosing and using AI software."
+  items={items}
+/>

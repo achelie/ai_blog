@@ -1,0 +1,54 @@
+---
+import ArticleCard from '../common/ArticleCard.astro';
+interface Item {
+  title: string;
+  description: string;
+  href: string;
+  type: string;
+  category: string;
+  date: Date;
+}
+interface Props {
+  items: Item[];
+}
+---
+
+<section class="related">
+  <div class="related-head">
+    <span class="section-kicker">Keep digging</span><h2>Related field notes</h2>
+  </div><div class="related-grid">
+    {
+      Astro.props.items.map((item, index) => (
+        <ArticleCard {...item} accent={index % 2 ? 'signal' : 'sky'} />
+      ))
+    }
+  </div>
+</section>
+<style>
+  .related {
+    margin-top: 5rem;
+  }
+  .related-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 1rem;
+  }
+  h2 {
+    margin: 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+  @media (max-width: 700px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

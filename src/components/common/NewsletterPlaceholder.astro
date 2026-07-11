@@ -1,0 +1,47 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<aside class="newsletter">
+  <div>
+    <span class="section-kicker">The useful email</span><h2>
+      One sharp tool note. Every other Tuesday.
+    </h2>
+  </div>
+  <div>
+    <p>No signup yet—this is an honest placeholder while we choose an email provider.</p>
+    <span class="button button--light" aria-disabled="true"
+      ><Icon name="lucide:mail" size={18} /> Newsletter coming soon</span
+    >
+  </div>
+</aside>
+
+<style>
+  .newsletter {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2rem;
+    border: 1px solid var(--ink);
+    border-radius: 1.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(1.5rem, 5vw, 3.5rem);
+    transform: rotate(-0.35deg);
+  }
+  h2 {
+    max-width: 42rem;
+    margin: 0.65rem 0 0;
+    font-family: 'Newsreader Variable', serif;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+  }
+  p {
+    color: #c7c1b4;
+  }
+  @media (max-width: 720px) {
+    .newsletter {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
