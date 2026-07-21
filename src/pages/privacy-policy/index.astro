@@ -1,25 +1,172 @@
 ---
-import StaticPageLayout from '../../layouts/StaticPageLayout.astro';
+import PolicyPageLayout from '../../layouts/PolicyPageLayout.astro';
+
+const updatedAt = new Date('2026-07-22');
+const sections = [
+  { depth: 2, slug: 'who-operates-this-site', text: 'Who operates this site' },
+  { depth: 2, slug: 'what-evidique-collects', text: 'What evidique collects' },
+  { depth: 2, slug: 'cloudflare-hosting-data', text: 'Cloudflare hosting data' },
+  { depth: 2, slug: 'cookies-accounts-and-analytics', text: 'Cookies, accounts, and analytics' },
+  { depth: 2, slug: 'on-device-search', text: 'On-device search' },
+  { depth: 2, slug: 'email-communications', text: 'Email communications' },
+  { depth: 2, slug: 'external-and-affiliate-links', text: 'External and affiliate links' },
+  { depth: 2, slug: 'legal-bases', text: 'Legal bases' },
+  {
+    depth: 2,
+    slug: 'retention-and-international-processing',
+    text: 'Retention and international processing',
+  },
+  { depth: 2, slug: 'your-privacy-rights', text: 'Your privacy rights' },
+  { depth: 2, slug: 'children', text: 'Children' },
+  { depth: 2, slug: 'security-and-changes', text: 'Security and changes' },
+  { depth: 2, slug: 'contact', text: 'Contact' },
+];
 ---
 
-<StaticPageLayout
+<PolicyPageLayout
   title="Privacy policy"
-  description="A plain-language description of the minimal data footprint used by this static publication."
+  description="What data this static publication handles, which services may process it, and the choices available to you."
   kicker="Less collection, less explaining"
+  recordLabel="Privacy notice"
+  {updatedAt}
+  {sections}
+  highlights={[
+    'No evidique accounts, comment system, contact form, or analytics script.',
+    'Search runs locally in your browser against a static index.',
+    'Cloudflare processes technical request data to deliver and protect the site.',
+  ]}
 >
+  <h2 id="who-operates-this-site">Who operates this site</h2>
   <p>
-    <strong>Effective July 11, 2026.</strong> Privacy questions can be sent to x771364026@gmail.com.
+    evidique is an independent publication operated by Ethan Miller. For privacy questions or rights
+    requests, email <a href="mailto:x771364026@gmail.com">x771364026@gmail.com</a>.
   </p>
-  <h2>This MVP</h2><p>
-    The site is statically generated. It has no accounts, comments, database, contact form, or
-    newsletter submission endpoint. Search runs in the browser against a static Pagefind index.
+  <p>
+    This policy covers visits to evidique and direct email exchanges with the editor. It does not
+    control the privacy practices of software vendors or other sites we link to.
   </p>
-  <h2>Hosting logs</h2><p>
-    Cloudflare may process request information needed to deliver and protect the site under its own
-    privacy and retention terms. evidique does not operate a separate visitor database.
+
+  <h2 id="what-evidique-collects">What evidique collects</h2>
+  <p>
+    The site is statically generated and does not maintain its own visitor database. evidique does
+    not ask visitors to create an account, post a comment, submit a web form, or provide payment
+    details.
   </p>
-  <h2>Future services</h2><p>
-    If analytics or email signup is added, name the provider, data collected, purpose, retention,
-    legal basis, and opt-out controls before enabling it.
+  <p>
+    If you email us, we receive the address, message, attachments, and any information you choose to
+    include. Avoid sending passwords, payment-card numbers, or other sensitive information.
   </p>
-</StaticPageLayout>
+
+  <h2 id="cloudflare-hosting-data">Cloudflare hosting data</h2>
+  <p>
+    Cloudflare hosts, delivers, and protects the site. When your browser requests a page, Cloudflare
+    may process technical information such as IP address, request time, requested URL, browser and
+    device details, network identifiers, and security signals needed to serve content and detect
+    abuse.
+  </p>
+  <p>
+    Cloudflare controls its infrastructure logs and retention practices under its own privacy terms.
+    evidique does not copy those request logs into a separate audience database.
+  </p>
+
+  <h2 id="cookies-accounts-and-analytics">Cookies, accounts, and analytics</h2>
+  <p>
+    evidique currently sets no first-party advertising or analytics cookies and runs no analytics,
+    behavioral profiling, or session-replay script. There is no login or newsletter submission
+    endpoint.
+  </p>
+  <p>
+    Cloudflare may use strictly necessary security mechanisms when required to protect the service.
+    If evidique later adds analytics, subscriptions, or optional cookies, this policy and the
+    relevant consent controls will be updated before those features are enabled.
+  </p>
+
+  <h2 id="on-device-search">On-device search</h2>
+  <p>
+    Site search uses Pagefind. Your browser downloads a static search index and performs the query
+    on your device. evidique does not receive or store the words you type into the search box.
+  </p>
+
+  <h2 id="email-communications">Email communications</h2>
+  <p>
+    We use email information to read and answer corrections, questions, access offers, and other
+    messages. We do not add a sender to a marketing list merely because they contacted us.
+  </p>
+  <p>
+    Messages may be retained while they remain useful for the conversation, editorial record,
+    dispute handling, security, or legal obligations. You may request deletion, subject to records
+    we must reasonably keep.
+  </p>
+
+  <h2 id="external-and-affiliate-links">External and affiliate links</h2>
+  <p>
+    Links may take you to a vendor, documentation site, or affiliate destination. Once you leave
+    evidique, the third party may collect data or set cookies under its own policy. Review those
+    terms before providing personal information or making a purchase.
+  </p>
+  <p>
+    evidique does not sell personal information and does not share it for cross-context behavioral
+    advertising. More detail about commercial links appears in the
+    <a href="/affiliate-disclosure/">affiliate disclosure</a>.
+  </p>
+
+  <h2 id="legal-bases">Legal bases</h2>
+  <p>
+    Where data-protection law requires a legal basis, technical delivery and security processing is
+    based on the legitimate interest in operating a safe, reliable publication. Email processing is
+    based on responding to your request, taking steps you ask us to take, or the same legitimate
+    interest in maintaining editorial records.
+  </p>
+  <p>
+    Consent will be requested before introducing optional processing where consent is legally
+    required. You may withdraw consent for future processing at any time.
+  </p>
+
+  <h2 id="retention-and-international-processing">Retention and international processing</h2>
+  <p>
+    evidique keeps personal information only as long as reasonably necessary for the purpose
+    described above, including security, editorial accountability, and legal obligations. Hosting
+    providers may process technical data in countries other than your own using the safeguards
+    described in their terms.
+  </p>
+
+  <h2 id="your-privacy-rights">Your privacy rights</h2>
+  <p>
+    Depending on where you live, you may have rights to request access, correction, deletion,
+    restriction, portability, or objection to certain processing. You may also have the right to
+    complain to a local data-protection authority.
+  </p>
+  <p>
+    California residents may request information about covered personal information and may request
+    correction or deletion where applicable. evidique will not discriminate against you for making a
+    valid privacy request. We may need enough information to verify the request and protect another
+    person's data.
+  </p>
+
+  <h2 id="children">Children</h2>
+  <p>
+    evidique is written for adults choosing professional software and is not directed to children
+    under 13. We do not knowingly collect personal information from children. If you believe a child
+    has sent us personal information, contact us so it can be reviewed and deleted where
+    appropriate.
+  </p>
+
+  <h2 id="security-and-changes">Security and changes</h2>
+  <p>
+    We use a static architecture and Cloudflare's delivery controls to reduce the amount of visitor
+    data held by evidique. No internet service can promise perfect security, so please use care when
+    sending information by email.
+  </p>
+  <p>
+    This policy may change when the site, providers, or legal requirements change. Material updates
+    will appear on this page with a revised effective date before or when the new practice begins.
+  </p>
+
+  <h2 id="contact">Contact</h2>
+  <p>
+    Send privacy questions and rights requests to
+    <a href="mailto:x771364026@gmail.com">x771364026@gmail.com</a>. Include the request, the country
+    or state relevant to it, and enough context for us to respond without sending unnecessary
+    sensitive information.
+  </p>
+</PolicyPageLayout>

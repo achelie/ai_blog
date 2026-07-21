@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import PolicyPageLayout from '../../layouts/PolicyPageLayout.astro';
 import { absoluteUrl } from '../../utils/seo';
 const guides = await getCollection('guides');
 const entry = guides.find((item) => item.data.slug === 'how-we-test-ai-software');
@@ -21,13 +21,25 @@ const jsonLd = {
 };
 ---
 
-<ArticleLayout
-  entry={entry}
-  type="Method"
-  section="How we test"
-  sectionUrl="/how-we-test/"
-  currentUrl="/how-we-test/"
-  headings={headings}
-  author={author}
-  jsonLd={jsonLd}><Content /></ArticleLayout
+<PolicyPageLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  seoTitle={entry.data.seo.title}
+  seoDescription={entry.data.seo.description}
+  canonical={entry.data.seo.canonical}
+  kicker="Independent testing method"
+  recordLabel="Method record"
+  publishedAt={entry.data.publishedAt}
+  updatedAt={entry.data.updatedAt}
+  highlights={[
+    'We define the task and success checks before opening the product.',
+    'Seven weighted dimensions turn evidence into a comparable score.',
+    'A named editor owns every claim, update, correction, and verdict.',
+  ]}
+  sections={headings}
+  type="article"
+  {jsonLd}
+  author={author.data}
 >
+  <Content />
+</PolicyPageLayout>

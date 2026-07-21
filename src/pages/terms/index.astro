@@ -1,23 +1,169 @@
 ---
-import StaticPageLayout from '../../layouts/StaticPageLayout.astro';
+import PolicyPageLayout from '../../layouts/PolicyPageLayout.astro';
+
+const updatedAt = new Date('2026-07-22');
+const sections = [
+  { depth: 2, slug: 'accepting-these-terms', text: 'Accepting these terms' },
+  { depth: 2, slug: 'who-may-use-the-site', text: 'Who may use the site' },
+  { depth: 2, slug: 'editorial-information-not-advice', text: 'Editorial information, not advice' },
+  {
+    depth: 2,
+    slug: 'accuracy-pricing-and-product-changes',
+    text: 'Accuracy, pricing, and product changes',
+  },
+  {
+    depth: 2,
+    slug: 'third-party-products-and-purchases',
+    text: 'Third-party products and purchases',
+  },
+  { depth: 2, slug: 'affiliate-links', text: 'Affiliate links' },
+  { depth: 2, slug: 'intellectual-property', text: 'Intellectual property' },
+  { depth: 2, slug: 'acceptable-use', text: 'Acceptable use' },
+  { depth: 2, slug: 'availability-and-changes', text: 'Availability and changes' },
+  { depth: 2, slug: 'disclaimers', text: 'Disclaimers' },
+  { depth: 2, slug: 'limitation-of-liability', text: 'Limitation of liability' },
+  { depth: 2, slug: 'general-terms', text: 'General terms' },
+  { depth: 2, slug: 'contact', text: 'Contact' },
+];
 ---
 
-<StaticPageLayout
+<PolicyPageLayout
   title="Terms of use"
-  description="The conditions that govern use of evidique and its editorial information."
+  description="The practical rules for using evidique and relying on its independent software coverage."
   kicker="Reasonable rules, plain language"
+  recordLabel="Site terms"
+  {updatedAt}
+  {sections}
+  highlights={[
+    'Reviews are general information, not legal, financial, or security advice.',
+    'Verify prices, limits, and purchase terms with the software vendor.',
+    'Linking and short attributed quotations are welcome; copying the site is not.',
+  ]}
 >
-  <p><strong>Effective July 11, 2026.</strong> By using this site, you agree to these terms.</p>
-  <h2>Editorial information</h2><p>
-    Articles are general information, not legal, financial, security, or procurement advice.
-    Software changes. Verify critical details with the vendor before buying or deploying it.
+  <h2 id="accepting-these-terms">Accepting these terms</h2>
+  <p>
+    By accessing or using evidique, you agree to these terms and the linked
+    <a href="/privacy-policy/">privacy policy</a>. If you do not agree, do not use the site.
   </p>
-  <h2>Intellectual property</h2><p>
-    Original text, graphics, and screenshots are protected by applicable law. Quotation and linking
-    are welcome when they preserve context and attribution.
+  <p>
+    These terms apply only to evidique. A software vendor, affiliate network, or other linked site
+    will have its own terms for your use or purchase.
   </p>
-  <h2>Availability</h2><p>
-    The site may correct, update, remove, or reorganize content. We do not promise uninterrupted
-    access or permanent coverage of any product.
+
+  <h2 id="who-may-use-the-site">Who may use the site</h2>
+  <p>
+    You may use the site if you can legally agree to these terms where you live. If you use evidique
+    for an organization, you confirm that you have authority to act for it.
   </p>
-</StaticPageLayout>
+
+  <h2 id="editorial-information-not-advice">Editorial information, not advice</h2>
+  <p>
+    Reviews, comparisons, guides, scores, and comments are general editorial information. They are
+    not legal, financial, tax, security, medical, or procurement advice, and they do not replace
+    testing a product against your own requirements.
+  </p>
+  <p>
+    A recommendation describes a product for the audience and use case stated on the page. It is not
+    a promise that the same tool will suit every workflow, budget, data policy, or risk level.
+  </p>
+
+  <h2 id="accuracy-pricing-and-product-changes">Accuracy, pricing, and product changes</h2>
+  <p>
+    We work to support important claims with tests and dated sources, but software changes quickly.
+    Features may move between plans, prices may vary by country or tax status, and a vendor may
+    change or discontinue a product after our latest check.
+  </p>
+  <p>
+    Verify critical details with the vendor before buying, migrating data, or deploying software.
+    Publication and update dates tell you when our information was last reviewed; they do not make
+    it real-time data.
+  </p>
+
+  <h2 id="third-party-products-and-purchases">Third-party products and purchases</h2>
+  <p>
+    evidique does not sell the software covered in its articles and is not a party to your purchase
+    from a vendor. Billing, renewals, refunds, warranties, support, data handling, and service
+    availability are governed by your agreement with that third party.
+  </p>
+  <p>
+    A link does not guarantee that the destination is always safe, available, or unchanged. Use your
+    own judgment before downloading software, granting permissions, or entering payment details.
+  </p>
+
+  <h2 id="affiliate-links">Affiliate links</h2>
+  <p>
+    Some clearly labeled links may generate a commission if you complete a qualifying purchase.
+    Affiliate availability does not determine coverage, ranking, or verdicts. Read the full
+    <a href="/affiliate-disclosure/">affiliate disclosure</a> for how commercial links are handled.
+  </p>
+
+  <h2 id="intellectual-property">Intellectual property</h2>
+  <p>
+    Original text, graphics, page design, test records, and screenshots are protected by applicable
+    intellectual-property law. Product names, logos, and third-party materials remain the property
+    of their respective owners.
+  </p>
+  <p>
+    You may link to evidique and quote short passages for commentary, reporting, or research when
+    you preserve the meaning and provide clear attribution. You may not republish substantial
+    portions, remove attribution, sell copies, or use automated extraction to reproduce the
+    publication.
+  </p>
+
+  <h2 id="acceptable-use">Acceptable use</h2>
+  <p>You must not use the site to:</p>
+  <ul>
+    <li>break applicable law or infringe another person's rights;</li>
+    <li>bypass access controls, probe security, or interfere with site operation;</li>
+    <li>send malware, abusive traffic, or automated requests that degrade the service;</li>
+    <li>misrepresent evidique content, scores, endorsements, or affiliation.</li>
+  </ul>
+  <p>
+    Ordinary browsing, search-engine crawling that respects published directives, citation, and
+    accessibility tools are welcome.
+  </p>
+
+  <h2 id="availability-and-changes">Availability and changes</h2>
+  <p>
+    We may correct, update, reorganize, suspend, or remove content without promising permanent
+    coverage of a product. We do not guarantee uninterrupted access or that every old link will keep
+    working forever.
+  </p>
+
+  <h2 id="disclaimers">Disclaimers</h2>
+  <p>
+    To the maximum extent permitted by law, evidique is provided “as is” and “as available,” without
+    warranties of accuracy, completeness, merchantability, fitness for a particular purpose, or
+    non-infringement. Nothing in these terms excludes a warranty that cannot legally be excluded.
+  </p>
+
+  <h2 id="limitation-of-liability">Limitation of liability</h2>
+  <p>
+    To the maximum extent permitted by law, evidique and its operator will not be liable for
+    indirect, incidental, special, consequential, or punitive loss arising from your use of the site
+    or reliance on its content. This includes lost profits, lost data, business interruption, and
+    costs caused by a third-party product or service.
+  </p>
+  <p>
+    These limits do not apply where the law does not allow them. Your mandatory consumer rights
+    remain unaffected.
+  </p>
+
+  <h2 id="general-terms">General terms</h2>
+  <p>
+    If part of these terms is found unenforceable, the remaining terms continue to apply. A delay in
+    enforcing a term does not waive it. These terms and the policies linked from them form the
+    entire agreement about your use of evidique.
+  </p>
+  <p>
+    We may update these terms when the site or legal requirements change. The effective date at the
+    top will change with a material revision. Continued use after an update means the revised terms
+    apply from that date, subject to any notice required by law.
+  </p>
+
+  <h2 id="contact">Contact</h2>
+  <p>
+    Questions about these terms can be sent to
+    <a href="mailto:x771364026@gmail.com">x771364026@gmail.com</a>.
+  </p>
+</PolicyPageLayout>

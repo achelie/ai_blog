@@ -1,27 +1,131 @@
 ---
-import StaticPageLayout from '../../layouts/StaticPageLayout.astro';
+import PolicyPageLayout from '../../layouts/PolicyPageLayout.astro';
+
+const updatedAt = new Date('2026-07-22');
+const sections = [
+  { depth: 2, slug: 'what-this-policy-covers', text: 'What this policy covers' },
+  { depth: 2, slug: 'how-we-choose-coverage', text: 'How we choose coverage' },
+  { depth: 2, slug: 'evidence-and-sources', text: 'Evidence and sources' },
+  {
+    depth: 2,
+    slug: 'testing-and-demonstration-content',
+    text: 'Testing and demonstration content',
+  },
+  { depth: 2, slug: 'scores-and-verdicts', text: 'Scores and verdicts' },
+  { depth: 2, slug: 'commercial-independence', text: 'Commercial independence' },
+  { depth: 2, slug: 'ai-in-the-workflow', text: 'AI in the workflow' },
+  { depth: 2, slug: 'updates-and-corrections', text: 'Updates and corrections' },
+  { depth: 2, slug: 'accountability', text: 'Accountability' },
+];
 ---
 
-<StaticPageLayout
+<PolicyPageLayout
   title="Editorial policy"
-  description="How evidique separates evidence, opinion, commercial relationships, corrections, and demonstration content."
+  description="How evidique separates evidence, opinion, commercial relationships, corrections, and clearly labeled demonstration content."
   kicker="The rules behind the verdict"
+  recordLabel="Editorial standard"
+  {updatedAt}
+  {sections}
+  highlights={[
+    'Important claims need a test record, dated source, or visible caveat.',
+    'Vendors and commercial partners do not approve our conclusions.',
+    'Material errors are corrected with a new visible update date.',
+  ]}
 >
-  <p><strong>Effective July 11, 2026.</strong> Ethan Miller owns and applies this policy.</p>
-  <h2>Evidence before adjectives</h2><p>
-    We tie important claims to a task, screenshot, output, primary source, or dated observation. We
-    label research-only work and never present it as hands-on testing.
+  <h2 id="what-this-policy-covers">What this policy covers</h2>
+  <p>
+    This policy applies to reviews, comparisons, alternatives, best-tool lists, guides, and the
+    supporting data published by evidique. It explains how we decide what to cover, what counts as
+    evidence, and who has the final word.
   </p>
-  <h2>Editorial control</h2><p>
-    Editors choose topics, tasks, scoring, conclusions, and corrections. Vendors may flag factual
-    errors but do not preview or approve verdicts.
+  <p>
+    Our job is not to make every tool look good. It is to help solo developers, publishers, and
+    small teams understand what a product can do, where it gets awkward, and what it costs today.
   </p>
-  <h2>Demonstration pages</h2><p>
-    MVP samples carry a prominent notice. Their placeholder scores and conclusions are not
-    recommendations and should never be promoted as finished reviews.
+
+  <h2 id="how-we-choose-coverage">How we choose coverage</h2>
+  <p>
+    Editors choose topics based on reader usefulness, meaningful product changes, category demand,
+    and whether we can test the central claims. Popularity can put a tool on the list; it cannot
+    decide the verdict.
   </p>
-  <h2>Corrections</h2><p>
-    We verify specific correction requests, update material errors promptly, and change the visible
-    updated date. Significant changes should include an editor's note.
+  <p>
+    Vendors may suggest products or provide access. We do not promise coverage, a publication date,
+    or a favorable result in exchange.
   </p>
-</StaticPageLayout>
+
+  <h2 id="evidence-and-sources">Evidence and sources</h2>
+  <p>
+    Material claims should connect to a repeatable task, captured output, original screenshot,
+    product documentation, or another dated primary source. When only secondary reporting is
+    available, we identify it and avoid presenting the claim as settled fact.
+  </p>
+  <p>
+    Product features, limits, and pricing can change between checks. Each article displays its
+    publication and update dates, and pricing claims should include the date they were verified.
+  </p>
+
+  <h2 id="testing-and-demonstration-content">Testing and demonstration content</h2>
+  <p>
+    We call something hands-on only when an editor used the product for the tasks described. A free
+    trial, paid plan, or vendor-provided account may be used, and the access method should be
+    disclosed when it could affect the result.
+  </p>
+  <p>
+    Demonstration pages exist to show the publication format while testing is still incomplete. They
+    carry a prominent notice. Placeholder scores, sample conclusions, and illustrative results are
+    not recommendations.
+  </p>
+
+  <h2 id="scores-and-verdicts">Scores and verdicts</h2>
+  <p>
+    Scores follow the published weighting system in <a href="/how-we-test/">How we test</a>. Editors
+    score the evidence collected for the stated audience and use case—not a vendor's feature list or
+    a product's reputation.
+  </p>
+  <p>
+    A score is a compact summary, not a substitute for the review. The written verdict, limitations,
+    test notes, and pricing context explain what the number cannot.
+  </p>
+
+  <h2 id="commercial-independence">Commercial independence</h2>
+  <p>
+    Affiliate availability, sponsorship, advertising, gifts, and vendor access do not qualify a
+    product for coverage or improve its position. Commercial partners cannot preview, approve, or
+    suppress an editorial conclusion.
+  </p>
+  <p>
+    Paid placements, if introduced, will sit outside editorial rankings and carry a clear label.
+    Affiliate links follow the separate <a href="/affiliate-disclosure/">affiliate disclosure</a>.
+  </p>
+
+  <h2 id="ai-in-the-workflow">AI in the workflow</h2>
+  <p>
+    AI tools may help transcribe notes, organize an outline, compare drafts, or flag unclear prose.
+    They do not receive final editorial authority. A named human editor checks the evidence,
+    wording, score, links, and published conclusion.
+  </p>
+  <p>
+    We do not invent tests, quotes, customer experiences, or product behavior to fill a gap. If the
+    evidence is missing, the honest answer is to say so or postpone the conclusion.
+  </p>
+
+  <h2 id="updates-and-corrections">Updates and corrections</h2>
+  <p>
+    We review a correction request against primary evidence. When a material error is confirmed, we
+    fix it promptly, change the visible update date, and add an editor's note when the correction
+    changes the verdict or meaning of the page.
+  </p>
+  <p>
+    Small spelling, formatting, and broken-link fixes may be made without an editor's note. Products
+    are re-tested when a change is likely to alter the recommendation, not merely because a release
+    note exists.
+  </p>
+
+  <h2 id="accountability">Accountability</h2>
+  <p>
+    Ethan Miller owns this policy and takes responsibility for evidique's published work. Send a
+    correction to <a href="mailto:x771364026@gmail.com">x771364026@gmail.com</a> with the page URL, disputed
+    claim, source, and date checked.
+  </p>
+</PolicyPageLayout>

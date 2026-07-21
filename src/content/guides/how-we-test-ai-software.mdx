@@ -1,43 +1,91 @@
 ---
 title: 'How We Test AI Software'
-description: 'The practical editorial process behind evidique reviews, from account sourcing and test tasks to scoring, corrections, and affiliate disclosure.'
+description: 'The practical editorial process behind evidique reviews, from repeatable tasks and evidence capture to scoring, pricing checks, corrections, and retesting.'
 slug: 'how-we-test-ai-software'
 status: 'published'
 demonstration: false
 category: 'ai-automation-tools'
 author: 'ethan-miller'
 publishedAt: 2026-07-01
-updatedAt: 2026-07-08
+updatedAt: 2026-07-22
 featuredImage: '/images/editorial-placeholder.svg'
 seo:
-  title: 'How evidique Tests Software'
-  description: 'Read the complete evidique testing policy covering account access, repeatable tasks, scoring, pricing checks, sponsorships, corrections, and updates.'
+  title: 'How evidique Tests AI Software'
+  description: 'See how evidique plans hands-on tests, records evidence, calculates weighted scores, checks pricing, handles vendor access, and updates AI software reviews.'
 ---
+
+## What counts as a test
+
+Opening a dashboard and clicking around is not enough. A hands-on test means an editor used the product for named tasks, recorded what happened, and checked the result against criteria written in advance.
+
+If we only read documentation, pricing pages, release notes, or third-party research, we call the work research—not hands-on testing. When testing is incomplete, the page carries a demonstration notice and does not present its sample verdict as a recommendation.
 
 ## Accounts and access
 
-We record whether we used a free trial, paid account, or vendor-provided access. Vendor access never guarantees coverage or a positive result. A future article will label the access method beside its test notes.
+We record whether we used a free account, trial, paid subscription, review license, or vendor-provided access. We also note restrictions that could change the result, such as missing team features, usage caps, or a temporary test environment.
 
-## Test tasks
+Vendor access never guarantees coverage, timing, or praise. If access expires before a material claim can be checked, we remove the claim, label the limitation, or delay publication.
 
-Each review starts with tasks drawn from the reader's actual job: ship a TypeScript change, audit a small site, build a landing page, or connect two services. We write the acceptance checks before touching the tool.
+## Test plans and repeatable tasks
 
-## Scoring
+Each review begins with jobs drawn from the reader's actual work. A coding tool might need to explain an unfamiliar repository, make a TypeScript change, repair a failing test, and show a usable diff. A website builder might need to create a responsive page, edit its structure, connect a domain, and export or publish the result.
 
-We score seven dimensions from 0 to 10. Output quality carries 25% of the final score, ease of use 20%, features and value 15% each, reliability and integrations 10% each, and documentation 5%.
+Before using the tool, we write down:
 
-## Pricing checks
+- the starting files, prompt, or account state;
+- the expected output and must-pass checks;
+- the time, plan limits, and retry rules;
+- the evidence we need to keep;
+- the conditions that make the task fail.
 
-An editor checks the official pricing page and records the date. We never call that data real-time. Old articles get a fresh check before a meaningful update.
+This does not turn software testing into laboratory science. It does make it harder to move the goalposts after a tool produces a disappointing answer.
 
-## Sponsorships and affiliate links
+## Evidence we keep
 
-Sponsors cannot buy a score, category win, or editorial approval. Commercial links carry clear disclosure and the appropriate link attributes.
+Useful evidence may include original screenshots, outputs, diffs, error messages, timing notes, plan and model names, usage limits, and links to official documentation. We redact credentials, private account details, and unrelated personal information before publication.
+
+An article should distinguish observed behavior from interpretation. “The export failed twice with this error” is an observation. “The export is unreliable for client work” is a conclusion that needs the observation and enough context to support it.
+
+## Scoring and weights
+
+We score seven dimensions from 0 to 10. The overall score is a weighted calculation, rounded to one decimal place:
+
+- output quality: **25%**;
+- ease of use: **20%**;
+- features: **15%**;
+- value for money: **15%**;
+- reliability: **10%**;
+- integrations and export: **10%**;
+- documentation and support: **5%**.
+
+A score measures the tool for the audience and use case stated in the review. It is not a permanent grade for the company. The written verdict and limitations matter more than a decimal point.
+
+## Pricing and plan checks
+
+An editor checks the vendor's official pricing page and records the date. We note whether a price is monthly or annual, per user or per workspace, before or after tax, and subject to usage credits when that information is material.
+
+We do not describe pricing as real time. Readers should verify the checkout total, renewal terms, refund policy, and region-specific taxes before buying.
+
+## Reliability and retesting
+
+One successful run does not prove reliability. Important tasks are repeated when time and access allow, especially when an output varies between attempts or relies on a remote service.
+
+We review published work when a product changes enough to affect the verdict, a reader reports a reproducible problem, or an important price or plan boundary moves. Cosmetic releases do not automatically trigger a full retest.
+
+## Commercial independence
+
+Sponsors, affiliate programs, gifts, and vendor-provided accounts cannot buy a score, category win, or editorial approval. Commercial links carry a clear disclosure and the appropriate link attributes.
+
+Editors choose the task, evidence threshold, score, competitors, and final wording. A vendor may flag a factual error and provide a source; it may not preview or approve the verdict.
 
 ## AI in our workflow
 
-AI may help with transcription, outlines, or copy checks. A named human editor remains responsible for every claim, test record, and correction.
+AI may help transcribe notes, organize an outline, compare two drafts, or flag unclear language. A named human editor remains responsible for every prompt, test record, source, score, and published claim.
 
-## Corrections and updates
+We do not ask a model to invent missing tests, quotes, customer experiences, or product behavior. When evidence is thin, the page should say so plainly.
 
-Send a specific correction to the address on our contact page. We verify it, update the visible date, and note material changes. Old reviews are re-tested when a product changes enough to alter the verdict.
+## Corrections and update notes
+
+Send a correction to the address on our [contact page](/contact/) with the page URL, disputed sentence or data point, primary source, and date checked. We verify the request before changing the article.
+
+Confirmed material errors are corrected promptly. The visible update date changes, and an editor's note is added when the correction alters the meaning, score, or verdict. Spelling fixes and repaired links may be updated without a separate note.

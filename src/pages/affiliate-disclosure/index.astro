@@ -1,27 +1,105 @@
 ---
-import StaticPageLayout from '../../layouts/StaticPageLayout.astro';
+import PolicyPageLayout from '../../layouts/PolicyPageLayout.astro';
+
+const updatedAt = new Date('2026-07-22');
+const sections = [
+  { depth: 2, slug: 'the-short-version', text: 'The short version' },
+  { depth: 2, slug: 'when-a-link-is-an-affiliate-link', text: 'When a link is an affiliate link' },
+  { depth: 2, slug: 'what-a-commission-changes', text: 'What a commission changes' },
+  { depth: 2, slug: 'what-a-commission-cannot-change', text: 'What a commission cannot change' },
+  { depth: 2, slug: 'labels-and-link-attributes', text: 'Labels and link attributes' },
+  { depth: 2, slug: 'tracking-and-third-party-sites', text: 'Tracking and third-party sites' },
+  { depth: 2, slug: 'sponsorships-and-free-access', text: 'Sponsorships and free access' },
+  { depth: 2, slug: 'questions', text: 'Questions' },
+];
 ---
 
-<StaticPageLayout
+<PolicyPageLayout
   title="Affiliate disclosure"
-  description="How commercial links work, what they can fund, and what they can never buy at evidique."
+  description="How commercial links may fund evidique, how they are labeled, and what they can never buy."
   kicker="The money note"
+  recordLabel="Commercial disclosure"
+  {updatedAt}
+  {sections}
+  highlights={[
+    'An affiliate link is treated as commercial only when it is enabled and labeled.',
+    'A referral commission should not increase the price you pay.',
+    'Money cannot buy a score, category win, or softer criticism.',
+  ]}
 >
+  <h2 id="the-short-version">The short version</h2>
   <p>
-    <strong>Effective July 11, 2026.</strong> Commercial relationships are disclosed where they appear.
+    Some evidique pages may link to software vendors through an affiliate program. If you follow a
+    clearly labeled affiliate link and complete a qualifying purchase, evidique may receive a
+    commission from the vendor.
   </p>
-  <h2>What an affiliate link does</h2><p>
-    If you follow a labeled affiliate link and buy something, the site may receive a commission. The
-    price you pay should not increase because of that referral.
+  <p>
+    You should not pay more because of that referral. The commission comes from the vendor's
+    marketing budget, not an added line on your bill.
   </p>
-  <h2>What it cannot do</h2><p>
-    Affiliate availability does not qualify a product for coverage, improve a score, create a
-    category win, or suppress a limitation.
+
+  <h2 id="when-a-link-is-an-affiliate-link">When a link is an affiliate link</h2>
+  <p>
+    A product link is not automatically an affiliate link. We treat it as commercial only when the
+    affiliate relationship is enabled and the link is labeled on the page. Ordinary editorial links
+    may point to the same vendor without generating compensation.
   </p>
-  <h2>Technical labeling</h2><p>
-    Sponsored commercial links open in a new tab and use <code
-      >nofollow sponsored noopener noreferrer</code
-    >. The link data lives in one central file so editors can disable it without hunting through
-    articles.
+
+  <h2 id="what-a-commission-changes">What a commission changes</h2>
+  <p>
+    Affiliate revenue may help pay for subscriptions, hosting, and the time required to retest
+    software. It can also tell us that readers found a product page useful enough to visit.
   </p>
-</StaticPageLayout>
+  <p>
+    That is the full extent of its editorial role. Revenue is tracked separately from scoring and
+    does not become evidence that a product works well.
+  </p>
+
+  <h2 id="what-a-commission-cannot-change">What a commission cannot change</h2>
+  <p>An affiliate relationship cannot:</p>
+  <ul>
+    <li>qualify a product for review or guarantee coverage;</li>
+    <li>raise a score, create a winner, or remove a documented limitation;</li>
+    <li>give a vendor advance approval over a headline, verdict, or comparison;</li>
+    <li>prevent us from recommending a non-affiliate alternative.</li>
+  </ul>
+
+  <h2 id="labels-and-link-attributes">Labels and link attributes</h2>
+  <p>
+    Pages that may contain affiliate links include a plain-language disclosure near the relevant
+    recommendation or call to action. Enabled commercial links use the appropriate
+    <code>rel="sponsored nofollow noopener noreferrer"</code> attributes and open in a new tab.
+  </p>
+  <p>
+    Affiliate destinations are managed centrally so an editor can disable a relationship without
+    searching through old articles.
+  </p>
+
+  <h2 id="tracking-and-third-party-sites">Tracking and third-party sites</h2>
+  <p>
+    A vendor or affiliate network may use a referral parameter, cookie, or similar technology after
+    you leave evidique. That processing happens under the third party's privacy policy and cookie
+    controls. evidique does not receive your payment-card details from those purchases.
+  </p>
+  <p>
+    Review the vendor's price, renewal terms, refund policy, and privacy information before buying.
+    Product plans change faster than disclosure pages enjoy admitting.
+  </p>
+
+  <h2 id="sponsorships-and-free-access">Sponsorships and free access</h2>
+  <p>
+    A sponsorship is not the same as an affiliate link. Any paid placement will be labeled as
+    sponsored and kept outside editorial rankings. Free or temporary product access will be
+    disclosed when it could affect the scope of a test.
+  </p>
+  <p>
+    Neither arrangement guarantees coverage, timing, or a favorable conclusion. The full separation
+    rules appear in our <a href="/editorial-policy/">editorial policy</a>.
+  </p>
+
+  <h2 id="questions">Questions</h2>
+  <p>
+    If a commercial link appears to be missing a label, email
+    <a href="mailto:x771364026@gmail.com">x771364026@gmail.com</a> with the page URL and link text.
+  </p>
+</PolicyPageLayout>
