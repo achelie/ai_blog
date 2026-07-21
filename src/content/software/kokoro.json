@@ -1,0 +1,13 @@
+{
+  "name": "Kokoro",
+  "slug": "kokoro",
+  "website": "https://huggingface.co/hexgrad/Kokoro-82M",
+  "logo": "K",
+  "company": "Hexgrad",
+  "category": "ai-automation-tools",
+  "platforms": ["Self-hosted", "Python", "ONNX"],
+  "hasFreePlan": true,
+  "startingPrice": 0,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-22"
+}

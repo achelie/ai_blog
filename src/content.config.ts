@@ -27,6 +27,7 @@ const baseArticle = {
   publishedAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   featuredImage: z.string(),
+  featuredImageAlt: z.string().optional(),
   seo,
 };
 
@@ -88,6 +89,7 @@ const alternatives = defineCollection({
         bestFor: z.string(),
         advantage: z.string(),
         drawback: z.string(),
+        priceNote: z.string().optional(),
       }),
     ),
   }),

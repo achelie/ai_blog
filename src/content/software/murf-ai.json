@@ -1,0 +1,13 @@
+{
+  "name": "Murf AI",
+  "slug": "murf-ai",
+  "website": "https://murf.ai/pricing",
+  "logo": "M",
+  "company": "Murf AI",
+  "category": "ai-automation-tools",
+  "platforms": ["Web", "API"],
+  "hasFreePlan": true,
+  "startingPrice": null,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-22"
+}

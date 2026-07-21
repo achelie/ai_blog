@@ -17,6 +17,7 @@ interface Props {
       publishedAt: Date;
       updatedAt: Date;
       featuredImage: string;
+      featuredImageAlt?: string;
       demonstration: boolean;
       seo: { title: string; description: string; canonical?: string; noindex: boolean };
     };
@@ -67,7 +68,21 @@ const { data } = entry;
       description={data.description}
       publishedAt={data.publishedAt}
       updatedAt={data.updatedAt}
-    />{data.demonstration && <DemonstrationNotice />}
+    />
+    {
+      data.featuredImageAlt && (
+        <figure class="featured-image">
+          <img
+            src={data.featuredImage}
+            alt={data.featuredImageAlt}
+            width="1200"
+            height="630"
+            fetchpriority="high"
+          />
+        </figure>
+      )
+    }
+    {data.demonstration && <DemonstrationNotice />}
   </div>
   <div class="shell article-grid">
     <aside><TableOfContents headings={headings} /></aside>
@@ -82,6 +97,19 @@ const { data } = entry;
     gap: clamp(2rem, 6vw, 6rem);
     align-items: start;
     padding-block: 4rem;
+  }
+  .featured-image {
+    margin: 0 0 1rem;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--paper-deep);
+    box-shadow: var(--shadow);
+  }
+  .featured-image img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .article-grid > aside {
     position: sticky;

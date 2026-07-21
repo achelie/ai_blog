@@ -1,0 +1,13 @@
+{
+  "name": "Cartesia",
+  "slug": "cartesia",
+  "website": "https://www.cartesia.ai/pricing",
+  "logo": "C",
+  "company": "Cartesia",
+  "category": "ai-automation-tools",
+  "platforms": ["Web", "API"],
+  "hasFreePlan": true,
+  "startingPrice": 5,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-22"
+}

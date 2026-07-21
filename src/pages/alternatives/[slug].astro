@@ -32,13 +32,14 @@ const items = entry.data.alternatives.map((candidate) => {
     advantage: candidate.advantage,
     drawback: candidate.drawback,
     price:
-      product.data.startingPrice === null
+      candidate.priceNote ??
+      (product.data.startingPrice === null
         ? 'Verify current price with vendor'
-        : `${product.data.currency} ${product.data.startingPrice}`,
+        : `${product.data.currency} ${product.data.startingPrice}`),
     reviewUrl: review ? `/reviews/${review.data.slug}/` : undefined,
   };
 });
-const jsonLd = {
+const articleJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: entry.data.title,
@@ -46,8 +47,25 @@ const jsonLd = {
   datePublished: entry.data.publishedAt.toISOString(),
   dateModified: entry.data.updatedAt.toISOString(),
   author: { '@type': 'Person', name: author.data.name },
+  image: absoluteUrl(entry.data.featuredImage),
   mainEntityOfPage: absoluteUrl(`/alternatives/${entry.data.slug}/`),
   creativeWorkStatus: entry.data.demonstration ? 'Demonstration content' : 'Published',
+};
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: entry.data.title,
+  numberOfItems: entry.data.alternatives.length,
+  itemListElement: entry.data.alternatives.map((candidate, index) => {
+    const product = software.find((item) => item.data.slug === candidate.software);
+    if (!product) throw new Error(`Missing software ${candidate.software}`);
+    return {
+      '@type': 'ListItem',
+      position: index + 1,
+      name: product.data.name,
+      url: product.data.website,
+    };
+  }),
 };
 ---
 
@@ -57,9 +75,14 @@ const jsonLd = {
   section="Alternatives"
   headings={headings}
   author={author}
-  jsonLd={jsonLd}
+  jsonLd={[articleJsonLd, itemListJsonLd]}
 >
-  <h2>The product being replaced</h2><SoftwareCard {...primary.data} />
   <Content />
+  <h2 id="vendor-records">Current vendor records</h2>
+  <p>
+    These records keep the baseline product and the shortlist tied to dated vendor pricing. Check
+    the linked official page before buying because voice pricing changes quickly.
+  </p>
+  <SoftwareCard {...primary.data} />
   <h2>Alternative shortlist</h2><AlternativesList items={items} />
 </ArticleLayout>

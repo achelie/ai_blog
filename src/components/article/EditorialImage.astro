@@ -1,0 +1,55 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+  href: string;
+  width?: number;
+  height?: number;
+}
+
+const { src, alt, caption, href, width = 2048, height = 968 } = Astro.props;
+---
+
+<figure class="editorial-image">
+  <a href={href} target="_blank" rel="noopener noreferrer">
+    <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+  </a>
+  <figcaption>
+    {caption}
+    <a href={href} target="_blank" rel="noopener noreferrer">Official page</a>
+  </figcaption>
+</figure>
+
+<style>
+  .editorial-image {
+    margin: 2.2rem 0;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(210, 255, 61, 0.18), transparent 36%),
+      var(--paper-deep);
+    box-shadow: 7px 7px 0 rgba(20, 20, 17, 0.13);
+  }
+  .editorial-image > a {
+    display: block;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  figcaption {
+    margin: 0;
+    border-top: 1px solid var(--ink);
+    padding: 0.8rem 1rem;
+    font-family: 'Public Sans Variable', sans-serif;
+    font-size: 0.76rem;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  figcaption a {
+    font-weight: 800;
+  }
+</style>

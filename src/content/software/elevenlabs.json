@@ -1,0 +1,13 @@
+{
+  "name": "ElevenLabs",
+  "slug": "elevenlabs",
+  "website": "https://elevenlabs.io/pricing/api",
+  "logo": "11",
+  "company": "ElevenLabs",
+  "category": "ai-automation-tools",
+  "platforms": ["Web", "API"],
+  "hasFreePlan": true,
+  "startingPrice": 6,
+  "currency": "USD",
+  "pricingCheckedAt": "2026-07-22"
+}

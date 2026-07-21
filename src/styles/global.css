@@ -254,6 +254,33 @@ svg {
   padding: 0.12rem 0.28rem;
   font-size: 0.9em;
 }
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-family: 'Public Sans Variable', sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.prose th,
+.prose td {
+  min-width: 9.5rem;
+  border: 1px solid var(--ink);
+  padding: 0.72rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(210, 255, 61, 0.34), transparent 72%), var(--paper-deep);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.prose tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.24);
+}
 
 .t-stagger-line {
   display: block;
