@@ -6,7 +6,7 @@
   "category": "ai-automation-tools",
   "platforms": ["Web", "API"],
   "hasFreePlan": true,
-  "startingPrice": null,
+  "startingPrice": 19,
   "currency": "USD",
-  "pricingCheckedAt": "2026-07-22"
+  "pricingCheckedAt": "2026-07-23"
 }
