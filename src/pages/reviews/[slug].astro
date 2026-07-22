@@ -88,6 +88,8 @@ const related = [...comparisons, ...alternatives]
     type: item.collection === 'comparisons' ? 'Comparison' : 'Alternatives',
     category: item.data.category,
     date: item.data.publishedAt,
+    image: item.data.featuredImage,
+    imageAlt: item.data.featuredImageAlt,
   }));
 ---
 

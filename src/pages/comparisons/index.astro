@@ -11,6 +11,8 @@ const items = entries.map(({ data }) => ({
   type: 'Comparison',
   category: categories.find((c) => c.slug === data.category)?.name ?? data.category,
   date: data.publishedAt,
+  image: data.featuredImage,
+  imageAlt: data.featuredImageAlt,
 }));
 ---
 

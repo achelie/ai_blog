@@ -82,6 +82,8 @@ const categoryName = (slug: string) => categories.find((item) => item.slug === s
             category={categoryName(entry.data.category)}
             date={entry.data.publishedAt}
             accent={index ? 'signal' : 'lime'}
+            image={entry.data.featuredImage}
+            imageAlt={entry.data.featuredImageAlt}
           />
         ))
       }
@@ -107,6 +109,8 @@ const categoryName = (slug: string) => categories.find((item) => item.slug === s
             category={categoryName(entry.data.category)}
             date={entry.data.publishedAt}
             accent="sky"
+            image={entry.data.featuredImage}
+            imageAlt={entry.data.featuredImageAlt}
           />
         ))
       }
@@ -127,6 +131,8 @@ const categoryName = (slug: string) => categories.find((item) => item.slug === s
             category={categoryName(entry.data.category)}
             date={entry.data.publishedAt}
             accent="signal"
+            image={entry.data.featuredImage}
+            imageAlt={entry.data.featuredImageAlt}
           />
         ))
       }
@@ -144,6 +150,8 @@ const categoryName = (slug: string) => categories.find((item) => item.slug === s
             category={categoryName(entry.data.category)}
             date={entry.data.publishedAt}
             accent="lime"
+            image={entry.data.featuredImage}
+            imageAlt={entry.data.featuredImageAlt}
           />
         ))
       }

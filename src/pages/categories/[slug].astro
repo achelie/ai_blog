@@ -70,6 +70,8 @@ const groups = collections.map((entries, index) => {
                   type={group.label}
                   category={category.name}
                   date={entry.data.publishedAt}
+                  image={entry.data.featuredImage}
+                  imageAlt={entry.data.featuredImageAlt}
                 />
               ))}
             </div>

@@ -9,20 +9,49 @@ interface Props {
   category: string;
   date: Date;
   accent?: 'lime' | 'signal' | 'sky';
+  image?: string;
+  imageAlt?: string;
 }
-const { title, description, href, type, category, date, accent = 'lime' } = Astro.props;
+const {
+  title,
+  description,
+  href,
+  type,
+  category,
+  date,
+  accent = 'lime',
+  image,
+  imageAlt,
+} = Astro.props;
+const hasCover = Boolean(image && imageAlt);
 ---
 
-<article class:list={['card', `accent-${accent}`]}>
+<article class:list={['card', `accent-${accent}`, { 'has-cover': hasCover }]}>
   <div class="card-top">
     <span class="tag">{type}</span><span class="date"
       >{date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span
     >
   </div>
-  <div class="card-body">
-    <p class="section-kicker">{category.replaceAll('-', ' ')}</p>
-    <h3><a href={href}>{title}</a></h3>
-    <p>{description}</p>
+  <div class="card-main">
+    {
+      image && imageAlt && (
+        <div class="card-cover">
+          <img
+            src={image}
+            alt={imageAlt}
+            width="1200"
+            height="630"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+    <div class="card-body">
+      <p class="section-kicker">{category.replaceAll('-', ' ')}</p>
+      <h3><a href={href}>{title}</a></h3>
+      <p>{description}</p>
+    </div>
   </div>
   <div class="card-foot">
     <span>Read the note</span><Icon name="lucide:arrow-up-right" size={19} />
@@ -32,6 +61,7 @@ const { title, description, href, type, category, date, accent = 'lime' } = Astr
 <style>
   article {
     padding: 1.15rem;
+    container-type: inline-size;
   }
   article::before {
     content: '';
@@ -62,8 +92,43 @@ const { title, description, href, type, category, date, accent = 'lime' } = Astr
     font-size: 0.72rem;
     color: var(--muted);
   }
+  .card-main {
+    flex: 1;
+    min-width: 0;
+  }
+  .card-cover {
+    position: relative;
+    aspect-ratio: 1200 / 630;
+    margin-top: 1.1rem;
+    overflow: hidden;
+    border: 1px solid var(--ink);
+    border-radius: 0.75rem 0.75rem 0.2rem 0.75rem;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(210, 255, 61, 0.24), transparent 36%),
+      var(--paper-deep);
+  }
+  .card-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 0.35rem solid rgba(255, 255, 255, 0.18);
+    pointer-events: none;
+  }
+  .card-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-fast) var(--ease-smooth-out);
+  }
+  .has-cover:hover .card-cover img {
+    transform: scale(1.018);
+  }
   .card-body {
     padding-block: clamp(2.5rem, 5vw, 5.5rem) 2rem;
+  }
+  .has-cover .card-body {
+    padding-block: 1.6rem 2rem;
   }
   h3 {
     margin: 0.45rem 0 0.65rem;
@@ -86,5 +151,24 @@ const { title, description, href, type, category, date, accent = 'lime' } = Astr
     padding-top: 0.85rem;
     font-size: 0.77rem;
     font-weight: 800;
+  }
+  @container (min-width: 38rem) {
+    .has-cover .card-main {
+      display: grid;
+      grid-template-columns: minmax(15rem, 0.92fr) minmax(0, 1.08fr);
+      gap: 1.35rem;
+      align-items: center;
+    }
+    .has-cover .card-cover {
+      margin-top: 1.1rem;
+    }
+    .has-cover .card-body {
+      padding-block: 2rem 2.2rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-cover img {
+      transition: none;
+    }
   }
 </style>
