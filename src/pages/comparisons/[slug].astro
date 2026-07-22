@@ -1,7 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
-import ComparisonTable from '../../components/comparison/ComparisonTable.astro';
 import { isPublished } from '../../utils/content';
 import { absoluteUrl } from '../../utils/seo';
 export async function getStaticPaths() {
@@ -13,13 +12,7 @@ interface Props {
 }
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
-const [allSoftware, authors] = await Promise.all([
-  getCollection('software'),
-  getCollection('authors'),
-]);
-const products = entry.data.products
-  .map((slug) => allSoftware.find((item) => item.data.slug === slug))
-  .filter((item) => item !== undefined);
+const authors = await getCollection('authors');
 const author = authors.find((item) => item.data.slug === entry.data.author);
 if (!author) throw new Error('Missing comparison author');
 const jsonLd = {
@@ -43,9 +36,5 @@ const jsonLd = {
   author={author}
   jsonLd={jsonLd}
 >
-  <h2>Core comparison</h2><ComparisonTable
-    products={products.map((product) => product.data.name)}
-    rows={entry.data.comparisonRows}
-  />
   <Content />
 </ArticleLayout>

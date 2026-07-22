@@ -81,9 +81,6 @@ const comparisons = defineCollection({
   schema: z.object({
     ...baseArticle,
     products: z.array(z.string()).length(2),
-    comparisonRows: z.array(
-      z.object({ feature: z.string(), values: z.array(z.string()).length(2) }),
-    ),
   }),
 });
 
