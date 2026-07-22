@@ -5,7 +5,7 @@ import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
 import ArticleCard from '../../components/common/ArticleCard.astro';
 import EmptyState from '../../components/common/EmptyState.astro';
 import { categories } from '../../data/categories';
-import { isPublished } from '../../utils/content';
+import { isPublished, sortByNewest } from '../../utils/content';
 export function getStaticPaths() {
   return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
 }
@@ -32,7 +32,7 @@ const groups = collections.map((entries, index) => {
   return {
     collection,
     label: labels[collection],
-    entries: entries.filter((entry) => entry.data.category === category.slug),
+    entries: sortByNewest(entries.filter((entry) => entry.data.category === category.slug)),
   };
 });
 ---

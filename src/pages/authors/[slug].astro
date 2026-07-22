@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/common/Breadcrumbs.astro';
 import ArticleCard from '../../components/common/ArticleCard.astro';
-import { isPublished } from '../../utils/content';
+import { isPublished, sortByNewest } from '../../utils/content';
 import { absoluteUrl } from '../../utils/seo';
 export async function getStaticPaths() {
   const authors = await getCollection('authors');
@@ -20,7 +20,9 @@ const collections = await Promise.all([
   getCollection('best', isPublished),
   getCollection('guides', isPublished),
 ]);
-const entries = collections.flat().filter((entry) => entry.data.author === author.data.slug);
+const entries = sortByNewest(
+  collections.flat().filter((entry) => entry.data.author === author.data.slug),
+);
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',

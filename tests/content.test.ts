@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { articleUrl, isPublished, selectRelatedArticles } from '../src/utils/content';
+import { articleUrl, isPublished, selectRelatedArticles, sortByNewest } from '../src/utils/content';
 import { absoluteUrl } from '../src/utils/seo';
 
 describe('content helpers', () => {
@@ -10,6 +10,20 @@ describe('content helpers', () => {
 
   it('always returns trailing-slash article URLs', () => {
     expect(articleUrl('reviews', 'cursor-review')).toBe('/reviews/cursor-review/');
+  });
+
+  it('puts the newest published article first', () => {
+    const entries = [
+      { data: { publishedAt: new Date('2026-07-23T00:00:00Z') }, slug: 'earlier' },
+      { data: { publishedAt: new Date('2026-07-23T04:00:00Z') }, slug: 'latest' },
+      { data: { publishedAt: new Date('2026-07-22T00:00:00Z') }, slug: 'oldest' },
+    ];
+
+    expect(sortByNewest(entries).map((entry) => entry.slug)).toEqual([
+      'latest',
+      'earlier',
+      'oldest',
+    ]);
   });
 
   it('builds canonical URLs', () => {
