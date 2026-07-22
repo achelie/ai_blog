@@ -1,9 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { Icon } from 'astro-icon/components';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import ComparisonTable from '../../components/comparison/ComparisonTable.astro';
-import SoftwareCard from '../../components/common/SoftwareCard.astro';
 import { isPublished } from '../../utils/content';
 import { absoluteUrl } from '../../utils/seo';
 export async function getStaticPaths() {
@@ -45,47 +43,9 @@ const jsonLd = {
   author={author}
   jsonLd={jsonLd}
 >
-  <section class="quick">
-    <Icon name="lucide:scale" size={27} /><div>
-      <span class="section-kicker">Quick conclusion</span><h2>{entry.data.winner}</h2><p>
-        {entry.data.quickVerdict}
-      </p>
-    </div>
-  </section>
-  <section class="product-pair">
-    {products.map((product) => <SoftwareCard {...product.data} />)}
-  </section>
   <h2>Core comparison</h2><ComparisonTable
     products={products.map((product) => product.data.name)}
     rows={entry.data.comparisonRows}
   />
   <Content />
 </ArticleLayout>
-<style>
-  .quick {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1rem;
-    border: 1px solid var(--ink);
-    border-radius: var(--radius);
-    background: rgba(201, 255, 69, 0.22);
-    padding: 1.3rem;
-  }
-  .quick h2 {
-    margin: 0.25rem 0;
-    font-size: 2rem;
-  }
-  .quick p {
-    margin: 0;
-  }
-  .product-pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  @media (max-width: 650px) {
-    .product-pair {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

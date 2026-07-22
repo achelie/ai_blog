@@ -28,6 +28,17 @@ const baseArticle = {
   updatedAt: z.coerce.date(),
   featuredImage: z.string(),
   featuredImageAlt: z.string().optional(),
+  relatedArticles: z
+    .array(
+      z
+        .string()
+        .regex(/^(reviews|comparisons|alternatives|best|guides)\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    )
+    .max(3)
+    .refine((items) => new Set(items).size === items.length, {
+      message: 'Related article references must be unique.',
+    })
+    .default([]),
   seo,
 };
 
@@ -70,8 +81,6 @@ const comparisons = defineCollection({
   schema: z.object({
     ...baseArticle,
     products: z.array(z.string()).length(2),
-    winner: z.string(),
-    quickVerdict: z.string(),
     comparisonRows: z.array(
       z.object({ feature: z.string(), values: z.array(z.string()).length(2) }),
     ),
@@ -123,7 +132,13 @@ const software = defineCollection({
     name: z.string(),
     slug: z.string(),
     website: z.url(),
-    logo: z.string(),
+    brandLogo: z
+      .object({
+        src: z.string(),
+        alt: z.string().min(1),
+        sourceUrl: z.url(),
+      })
+      .optional(),
     company: z.string(),
     category,
     platforms: z.array(z.string()),

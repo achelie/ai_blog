@@ -2,7 +2,6 @@
   "name": "Google Cloud Text-to-Speech",
   "slug": "google-cloud-tts",
   "website": "https://cloud.google.com/text-to-speech/pricing",
-  "logo": "G",
   "company": "Google Cloud",
   "category": "ai-automation-tools",
   "platforms": ["API", "Google Cloud"],

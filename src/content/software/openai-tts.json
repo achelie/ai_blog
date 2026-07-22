@@ -2,7 +2,6 @@
   "name": "OpenAI GPT-4o mini TTS",
   "slug": "openai-tts",
   "website": "https://developers.openai.com/api/docs/models/gpt-4o-mini-tts",
-  "logo": "O",
   "company": "OpenAI",
   "category": "ai-automation-tools",
   "platforms": ["API"],

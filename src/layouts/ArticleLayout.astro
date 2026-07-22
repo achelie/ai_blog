@@ -5,9 +5,12 @@ import ArticleHero from '../components/article/ArticleHero.astro';
 import DemonstrationNotice from '../components/article/DemonstrationNotice.astro';
 import TableOfContents from '../components/article/TableOfContents.astro';
 import AuthorBox from '../components/article/AuthorBox.astro';
+import RelatedArticles from '../components/article/RelatedArticles.astro';
+import type { ArticleCollection } from '../utils/content';
 
 interface Props {
   entry: {
+    collection: ArticleCollection;
     data: {
       title: string;
       description: string;
@@ -18,6 +21,7 @@ interface Props {
       updatedAt: Date;
       featuredImage: string;
       featuredImageAlt?: string;
+      relatedArticles?: string[];
       demonstration: boolean;
       seo: { title: string; description: string; canonical?: string; noindex: boolean };
     };
@@ -88,7 +92,17 @@ const { data } = entry;
     <aside><TableOfContents headings={headings} /></aside>
     <article class="prose"><slot /></article>
   </div>
-  <div class="shell author"><AuthorBox {...author.data} /></div>
+  <div class="shell after-article">
+    <AuthorBox {...author.data} />
+    <RelatedArticles
+      current={{
+        collection: entry.collection,
+        slug: data.slug,
+        category: data.category,
+        relatedArticles: data.relatedArticles,
+      }}
+    />
+  </div>
 </BaseLayout>
 <style>
   .article-grid {
@@ -115,7 +129,7 @@ const { data } = entry;
     position: sticky;
     top: 7rem;
   }
-  .author {
+  .after-article {
     padding-block: 4rem 6rem;
   }
   @media (max-width: 800px) {

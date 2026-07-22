@@ -2,7 +2,11 @@
 import { Icon } from 'astro-icon/components';
 interface Props {
   name: string;
-  logo: string;
+  brandLogo?: {
+    src: string;
+    alt: string;
+    sourceUrl: string;
+  };
   platforms: string[];
   hasFreePlan: boolean;
   startingPrice: number | null;
@@ -10,12 +14,26 @@ interface Props {
   website: string;
   pricingCheckedAt: Date;
 }
-const { name, logo, platforms, hasFreePlan, startingPrice, currency, website, pricingCheckedAt } =
-  Astro.props;
+const {
+  name,
+  brandLogo,
+  platforms,
+  hasFreePlan,
+  startingPrice,
+  currency,
+  website,
+  pricingCheckedAt,
+} = Astro.props;
 ---
 
-<article class="software-card">
-  <div class="software-logo" aria-hidden="true">{logo}</div>
+<article class:list={['software-card', { 'has-brand-logo': brandLogo }]}>
+  {
+    brandLogo && (
+      <div class="software-logo">
+        <img src={brandLogo.src} alt={brandLogo.alt} width="48" height="48" loading="lazy" />
+      </div>
+    )
+  }
   <div><h3>{name}</h3><p>{platforms.join(' · ')}</p></div>
   <dl>
     <div><dt>Free plan</dt><dd>{hasFreePlan ? 'Listed' : 'Not listed'}</dd></div>
@@ -33,24 +51,28 @@ const { name, logo, platforms, hasFreePlan, startingPrice, currency, website, pr
 <style>
   .software-card {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     gap: 1rem;
     border: 1px solid var(--ink);
     border-radius: var(--radius);
     padding: 1.15rem;
     background: rgba(255, 255, 255, 0.3);
   }
+  .software-card.has-brand-logo {
+    grid-template-columns: auto 1fr;
+  }
   .software-logo {
     display: grid;
     place-items: center;
     width: 3.1rem;
     aspect-ratio: 1;
-    border: 1px solid var(--ink);
-    border-radius: 0.7rem;
-    background: var(--sky);
-    font-family: 'Newsreader Variable', serif;
-    font-size: 1.3rem;
-    font-weight: 700;
+    overflow: hidden;
+  }
+  .software-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   h3,
   p {

@@ -2,7 +2,6 @@
   "name": "Murf AI",
   "slug": "murf-ai",
   "website": "https://murf.ai/pricing",
-  "logo": "M",
   "company": "Murf AI",
   "category": "ai-automation-tools",
   "platforms": ["Web", "API"],

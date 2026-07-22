@@ -27,11 +27,9 @@ interface Props {
 }
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
-const [softwareEntries, authorEntries, comparisons, alternatives] = await Promise.all([
+const [softwareEntries, authorEntries] = await Promise.all([
   getCollection('software'),
   getCollection('authors'),
-  getCollection('comparisons', isPublished),
-  getCollection('alternatives', isPublished),
 ]);
 const software = softwareEntries.find((item) => item.data.slug === entry.data.software);
 const author = authorEntries.find((item) => item.data.slug === entry.data.author);
@@ -78,19 +76,6 @@ const reviewSchema = !entry.data.demonstration
     }
   : undefined;
 const jsonLd = [articleSchema, softwareSchema, ...(reviewSchema ? [reviewSchema] : [])];
-const related = [...comparisons, ...alternatives]
-  .filter((item) => item.data.category === entry.data.category)
-  .slice(0, 2)
-  .map((item) => ({
-    title: item.data.title,
-    description: item.data.description,
-    href: `/${item.collection}/${item.data.slug}/`,
-    type: item.collection === 'comparisons' ? 'Comparison' : 'Alternatives',
-    category: item.data.category,
-    date: item.data.publishedAt,
-    image: item.data.featuredImage,
-    imageAlt: item.data.featuredImageAlt,
-  }));
 ---
 
 <BaseLayout
@@ -150,7 +135,15 @@ const related = [...comparisons, ...alternatives]
     </article>
   </div>
   <div class="shell after-article">
-    <AuthorBox {...author.data} />{related.length > 0 && <RelatedArticles items={related} />}
+    <AuthorBox {...author.data} />
+    <RelatedArticles
+      current={{
+        collection: entry.collection,
+        slug: entry.data.slug,
+        category: entry.data.category,
+        relatedArticles: entry.data.relatedArticles,
+      }}
+    />
   </div>
 </BaseLayout>
 <style>
